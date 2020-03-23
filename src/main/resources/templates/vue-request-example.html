@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue使用Axios向后台通讯</title>
+    <!--    Axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="vue">
+    <p>{{user.username}}</p>
+</div>
+</body>
+<script>
+    var vue = new Vue({
+        el: '#vue',
+        // 函数对象
+        data(){
+            return {
+                user:{
+                    username: '',
+                    password: ''
+                }
+            }
+        },
+        //页面加载完成后请求后台数据
+        mounted(){
+            axios
+                .get('http://localhost:8088/blogs/vue/request')
+                .then(response =>(this.user = response.data));
+        }
+    })
+</script>
+</html>

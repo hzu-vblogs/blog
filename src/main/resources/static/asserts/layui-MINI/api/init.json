@@ -1,0 +1,134 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/blogs/admin/welcome"
+  },
+  "logoInfo": {
+    "title": "LAYUI MINI",
+    "image": "/blogs/static/asserts/layui-MINI/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "",
+      "icon": "",
+      "href": "",
+      "target": "",
+      "child": [
+        {
+          "title": "个人信息管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "展示",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "文章分类管理",
+          "href": "#",
+          "icon": "fa fa-window-maximize",
+          "target": "_self",
+          "child": [
+            {
+              "title": "分类列表",
+              "href": "/blogs/admin/category/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "新增分类",
+              "href": "/blogs/admin/category/form",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+
+        },
+        {
+          "title": "文章管理",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self",
+          "child": [
+            {
+              "title": "文章列表",
+              "href": "/blogs/admin/article/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "发布文章",
+              "href": "/blogs/admin/article/form",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "评论管理",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self",
+          "child": [
+            {
+              "title": "评论列表",
+              "href": "/blogs/admin/article/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "留言板管理",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self",
+          "child": [
+            {
+              "title": "留言板列表",
+              "href": "/blogs/admin/article/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "相册管理",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self",
+          "child": [
+            {
+              "title": "相册列表",
+              "href": "/blogs/admin/article/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "音乐管理",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self",
+          "child": [
+            {
+              "title": "音乐列表",
+              "href": "/blogs/admin/article/list",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        }
+
+
+      ]
+    }
+  ]
+}

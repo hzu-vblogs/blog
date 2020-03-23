@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzu.blog.mapper.CommentsMapper">
+  <resultMap id="BaseResultMap" type="com.hzu.blog.domain.Comments">
+    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
+    <!--@Table comments-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="good_nums" jdbcType="BIGINT" property="goodNums" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_root" jdbcType="BIT" property="isRoot" />
+    <result column="is_reply" jdbcType="BIT" property="isReply" />
+    <result column="create_day" jdbcType="TIMESTAMP" property="createDay" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
+    id, content, article_id, good_nums, `name`, email, is_root, is_reply, create_day, 
+    parent_id
+  </sql>
+</mapper>

@@ -1,0 +1,31 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /blogs
+
+spring:
+
+  thymeleaf:
+    cache: false # 开发时关闭缓存,不然没法看到实时页面
+    mode: HTML # 用非严格的 HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.107.102.132:3306/vblogs?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+    username: softwareWorker
+    password: 123456789.zGG
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 60000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+mybatis:
+  type-aliases-package: com.hzu.blog.domain
+  mapper-locations: classpath:mapper/*.xml

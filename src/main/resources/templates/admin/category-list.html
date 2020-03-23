@@ -1,0 +1,131 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<head>
+    <title>分类管理</title>
+
+    <link rel="stylesheet" th:href="@{/static/asserts/X-admin/css/font.css}">
+    <link rel="stylesheet" th:href="@{/static/asserts/X-admin/css/xadmin.css}">
+    <script type="text/javascript" src="/blogs/static/asserts/app/jquery.min.js"></script>
+
+    <script src="/blogs/static/asserts/X-admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/blogs/static/asserts/X-admin/js/xadmin.js"></script>
+    <script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
+</head>
+<body class="layui-anim layui-anim-up">
+    <!--导航栏-->
+    <div class="x-nav">
+              <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a href="">分类管理管理</a>
+                <a>
+                  <cite>分类列表</cite></a>
+              </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+           href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+
+
+
+    <div>
+          <a class="layui-btn" href="/admin/flow/pic/form" ><i class="layui-icon"></i>添加</a>
+    </div>
+
+
+
+    <table class="layui-table" id="category">
+    </table>
+
+    <script type="text/html" id="sex">
+        {{#  if(d.sex){}}
+        <div class="layui-table-cell">女</div>
+        {{#  } else { }}
+        <div class="layui-table-cell">男</div>
+        {{#  } }}
+    </script>
+
+    <script type="text/html" id="work">
+        {{#  if(d.isWork){}}
+        <div class="layui-table-cell">不在职</div>
+        {{#  } else { }}
+        <div class="layui-table-cell">在职</div>
+        {{#  } }}
+    </script>
+
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" onclick="toFormPage({{d.id}})" >修改</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del({{d.id}})">删除</a>
+    </script>
+
+    <script>
+        var  table ;
+        var util ;
+        var layer ;
+        layui.use(['util','table','layer'], function () {
+            table = layui.table;
+            util = layui.util;
+            layer = layui.layer;
+            table.render({
+                elem: '#category'
+                , url: '/blogs/admin/category/page'
+                , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    groups: 5 //只显示 1 个连续页码
+                    // , first: false //不显示首页
+                    // , last: false //不显示尾页
+                }
+
+                , cols: [ [
+
+                    {field: 'id', title: 'id', hide : true}
+                    , {field: 'name', title: '名称'}
+                    , {field: 'sort', title: '排序'}
+                    , {field: 'createDay', title: '创建日期',sort: true,templet:function(d){return util.toDateString(d.createDay, "yyyy-MM-dd HH:mm:ss");}}
+                    , {field: 'operating', title: '操作', toolbar: '#barDemo'}
+                ] ]
+                , response: {
+                    statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+                }
+                , parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                    console.log(res);
+                    return {
+                        "code": res.status, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+            });
+
+        });
+
+        function del(id) {
+            App.deleteSingle('/blogs/admin/category/delete',id,layer,table,'category')
+        }
+
+        function search() {
+            var mobile = $('#mobile').val();
+            var email = $('#email').val();
+            var username = $('#username').val();
+            App.handleReloadTable(table,'student',{'mobile':mobile,'username':username,'email':email})
+        }
+
+        function toFormPage(id) {
+            console.log(id);
+            var url = '/admin/flow/pic/form?id=' + id;
+            layer.open({
+                type: 2
+                , area: [500 + 'px', 500 + 'px']
+                , title: "保存信息"
+                , content: url
+            });
+        }
+    </script>
+
+</body>
+</html>
