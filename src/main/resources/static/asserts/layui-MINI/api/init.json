@@ -17,13 +17,13 @@
       "child": [
         {
           "title": "个人信息管理",
-          "href": "",
+          "href": "#",
           "icon": "fa fa-home",
           "target": "_self",
           "child": [
             {
               "title": "展示",
-              "href": "page/welcome-1.html",
+              "href": "/blogs/admin/user/message",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }

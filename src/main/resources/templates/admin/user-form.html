@@ -16,21 +16,38 @@
 </head>
 <body>
 <div class="layui-form layuimini-form">
-    <input type="hidden" name="id" th:value="${category?.getId()}">
-    <input type="hidden" name="userId" th:value="${session.user?.getId()}">
+    <input type="hidden" name="id" th:value="${session.user?.getId()}">
     <div class="layui-form-item">
-        <label class="layui-form-label required">分类名称</label>
+        <label class="layui-form-label required">用户名</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" lay-reqtext="分类名称不能为空" placeholder="请输入分类名称" th:value="${category?.getName()}" class="layui-input">
+            <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" class="layui-input" th:value="${session.user?.getUsername()}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">分类排序</label>
+        <label class="layui-form-label required">密码</label>
         <div class="layui-input-block">
-            <input type="number" name="sort" lay-verify="required" lay-reqtext="分类排序不能为空" placeholder="分类排序" th:value="${category?.getSort()}" class="layui-input">
+            <input type="text" name="password"  placeholder="密码" class="layui-input">
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" name="email" placeholder="请输入邮箱" th:value="${session.user?.getEmail()}" readonly="readonly" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-input-block">
+            <input type="text" name="icon"  placeholder="" value="" class="layui-input" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">介绍</label>
+        <div class="layui-input-block">
+            <textarea name="introduction" class="layui-textarea" placeholder="请输入备注信息" th:text="${session.user?.getIntroduction()}"></textarea>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -50,7 +67,8 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            App.handleSaveForm('/blogs/admin/category/save',data.field,layer,'/blogs/admin/category/list');
+            App.handleSaveForm('/blogs/admin/user/save',data.field,layer);
+            return false;
         });
 
     });

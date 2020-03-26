@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>分类列表</title>
@@ -17,29 +17,12 @@
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
+<!--                    <input type="hidden" name="userId" th:value="${session.user?.getId()}">-->
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">分类名称</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户性别</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="sex" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户城市</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="city" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户职业</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -71,15 +54,17 @@
 </script>
 <script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
+    var userId = '[[${session.user.id}]]';
+    var table;
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            util = layui.util,
+            util = layui.util;
             table = layui.table;
 
         table.render({
             elem: '#currentTableId',
-            url: '/blogs/admin/category/page',
+            url: '/blogs/admin/category/page?userId='+userId,
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -118,19 +103,17 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);
-            layer.alert(result, {
-                title: '最终的搜索信息'
-            });
+            // layer.alert(result, {
+            //     title: '最终的搜索信息'
+            // });
 
             //执行搜索重载
             table.reload('currentTableId', {
                 page: {
-                    curr: 1
+                    curr: 1 //重新从第 1 页开始
                 }
-                , where: {
-                    searchParams: result
-                }
-            }, 'data');
+                , where: data.field
+            });
 
             return false;
         });
@@ -196,7 +179,17 @@
 
 <script>
     function del(id) {
-        App.deleteSingle('/blogs/admin/category/delete',id,layer,'','category')
+        App.deleteSingle('/blogs/admin/category/delete',id,layer,table,'currentTableId')
+    }
+    function toFormPage(id) {
+        console.log(id);
+        var url = '/blogs/admin/category/form?id=' + id;
+        layer.open({
+            type: 2
+            , area: [500 + 'px', 300 + 'px']
+            , title: "保存信息"
+            , content: url
+        });
     }
 </script>
 

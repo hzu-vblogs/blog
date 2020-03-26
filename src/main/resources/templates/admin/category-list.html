@@ -10,10 +10,10 @@
     <link rel="stylesheet" th:href="@{/static/asserts/X-admin/css/font.css}">
     <link rel="stylesheet" th:href="@{/static/asserts/X-admin/css/xadmin.css}">
     <script type="text/javascript" src="/blogs/static/asserts/app/jquery.min.js"></script>
-
+    <script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
     <script src="/blogs/static/asserts/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/blogs/static/asserts/X-admin/js/xadmin.js"></script>
-    <script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
+
 </head>
 <body class="layui-anim layui-anim-up">
     <!--导航栏-->
@@ -115,16 +115,7 @@
             App.handleReloadTable(table,'student',{'mobile':mobile,'username':username,'email':email})
         }
 
-        function toFormPage(id) {
-            console.log(id);
-            var url = '/admin/flow/pic/form?id=' + id;
-            layer.open({
-                type: 2
-                , area: [500 + 'px', 500 + 'px']
-                , title: "保存信息"
-                , content: url
-            });
-        }
+
     </script>
 
 </body>

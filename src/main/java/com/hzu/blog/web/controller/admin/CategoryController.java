@@ -6,12 +6,25 @@ import com.hzu.blog.common.dto.PaginationDto;
 import com.hzu.blog.domain.Category;
 import com.hzu.blog.service.CategoryService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/admin/category")
 public class CategoryController extends AbstractController<Category, CategoryService> {
+
+
+    @ModelAttribute
+    public Category category(Long id){
+        if (id!=null)
+            return service.getById(id);
+        return new Category();
+    }
+
+
     /**
      * 跳转列表页
      *
@@ -51,8 +64,17 @@ public class CategoryController extends AbstractController<Category, CategorySer
      * @return
      */
     @Override
+    @ResponseBody
+    @RequestMapping(value = "/save")
     public BaseResult save(Category entity) {
-        return null;
+        if (entity.getId()!=null){
+            service.update(entity);
+        }else {
+            entity.setCreateDay(new Date());
+            service.insert(entity);
+        }
+
+        return BaseResult.success("保存成功");
     }
 
     /**
@@ -66,6 +88,7 @@ public class CategoryController extends AbstractController<Category, CategorySer
     @ResponseBody
     @RequestMapping(value = "/page")
     public BaseResult page(PaginationDto paginationDto, Category entity) {
+        System.out.println(entity);
         return super.page(paginationDto, entity);
     }
 

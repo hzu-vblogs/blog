@@ -89,6 +89,11 @@
 
         <!--        thymeleaf模板引擎  end-->
 
+        <!--配置切面-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

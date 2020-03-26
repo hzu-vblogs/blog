@@ -82,7 +82,8 @@ var App = function () {
                 console.log(result);
                 if (result.status === 200) {
                     parent.layer.msg("操作成功!", {icon: 6,time: 500}, function () {
-                        parent.location.reload();
+                        layer.closeAll();
+                        reloadTable(table,tableId);
                     });
                     //重新加载
                     // table.reload(tableId);
@@ -126,9 +127,8 @@ var App = function () {
     };
 
 
-    var saveForm = function (url, data,layer,listUrl,type) {
-        console.log(type);
-
+    var saveForm = function (url, data,layer,listUrl) {
+        console.log(data);
         var msg = "您确定保存修改吗？";
         layer.confirm(msg, {
             btn: ['确认', '取消'] //按钮
@@ -157,16 +157,14 @@ var App = function () {
             function succFunction(result) {
                 console.log(result);
                 if (result.status == 200) {
-                    layer.closeAll();
-                    parent.layer.msg("操作成功!", {time: 500}, function () {
-                        if (type===1){
-                            parent.location.reload();
-                        }else {
-                             window.location.reload();
-                        }
+                    parent.layer.msg(result.message, {icon: 6, time: 500}, function () {
+                        if (listUrl!==undefined&&listUrl!=null)
+                            parent.window.location=listUrl;
                     });
+
+                    layer.closeAll();
                 } else {
-                    layer.msg("操作失败", {icon: 5, time: 2000});
+                    layer.msg(result.message, {icon: 5, time: 2000});
                 }
             }
 
@@ -263,8 +261,8 @@ var App = function () {
         handleFormToJson:function (f) {
             formToJSON(f);
         },
-        handleSaveForm:function (url, data,layer,listUrl,type){
-            saveForm(url, data,layer,listUrl,type)
+        handleSaveForm:function (url, data,layer,listUrl){
+            saveForm(url, data,layer,listUrl)
         }
     }
 }();

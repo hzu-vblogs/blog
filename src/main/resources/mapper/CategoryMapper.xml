@@ -2,20 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzu.blog.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.hzu.blog.domain.Category">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
+    <!--@mbg.generated generated on Fri Mar 27 00:15:39 CST 2020.-->
     <!--@Table category-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="create_day" jdbcType="TIMESTAMP" property="createDay" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
-    id, `name`, sort, create_day
+    <!--@mbg.generated generated on Fri Mar 27 00:15:39 CST 2020.-->
+    id, `name`, sort, create_day, user_id
   </sql>
 
   <select id="page" resultMap="BaseResultMap">
     select * from category
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+    </where>
   </select>
 
   <select id="totalCount" resultMap="BaseResultMap">

@@ -9,4 +9,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> implements UserService{
 
 
+    @Override
+    public User getByEmail(String email) {
+        return dao.getByEmail(email);
+    }
 }
