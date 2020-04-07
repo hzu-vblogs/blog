@@ -1,6 +1,9 @@
 package com.hzu.blog.service;
 
-public interface ArticleService{
+import com.hzu.blog.abstracts.BaseService;
+import com.hzu.blog.domain.Article;
+
+public interface ArticleService extends BaseService<Article> {
 
 
 }

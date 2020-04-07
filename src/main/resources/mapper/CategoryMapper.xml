@@ -30,4 +30,9 @@
   <select id="totalCount" resultMap="BaseResultMap">
     select count(*) from category
   </select>
+
+    <select id="getCategoryByUserId" resultType="com.hzu.blog.pojo.vo.CategoryVO">
+      select id,name from category
+      where user_id = #{userId}
+    </select>
 </mapper>

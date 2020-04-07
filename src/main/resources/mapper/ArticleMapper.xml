@@ -21,4 +21,20 @@
     id, title, category_id, user_id, description, content, create_day, update_day, good_nums, 
     read_nums, is_recommend
   </sql>
+
+  <select id="page" resultMap="BaseResultMap">
+    select * from article
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="title != null and title != ''">
+        AND title like CONCAT ('%',#{title},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="totalCount" resultMap="BaseResultMap">
+    select count(*) from category
+  </select>
 </mapper>

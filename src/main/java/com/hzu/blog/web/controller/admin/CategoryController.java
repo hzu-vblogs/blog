@@ -6,13 +6,17 @@ import com.hzu.blog.common.dto.PaginationDto;
 import com.hzu.blog.domain.Category;
 import com.hzu.blog.service.CategoryService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Controller
+@Validated
 @RequestMapping(value = "/admin/category")
 public class CategoryController extends AbstractController<Category, CategoryService> {
 
@@ -104,4 +108,14 @@ public class CategoryController extends AbstractController<Category, CategorySer
     public BaseResult delete(Long id) {
         return super.delete(id);
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/{userId}")
+    public BaseResult getByUserId(@NotNull(message = "用户id不能为空") @PathVariable(value = "userId") Long userId) {
+        System.out.println(userId);
+        return BaseResult.success("获取成功",service.getCategoryByUserId(userId));
+
+    }
+
 }
