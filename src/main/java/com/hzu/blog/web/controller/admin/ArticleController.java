@@ -74,6 +74,7 @@ public class ArticleController extends AbstractController<Article, ArticleServic
             entity.setReadNums(0L);
             service.insert(entity);
         }else{
+            entity.setUpdateDay(new Date());
             service.update(entity);
         }
         return BaseResult.success();
