@@ -136,6 +136,8 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            var userId = '[[${session.user.id}]]';
+
             var id = $('#id').val();
             var content= editor.getMarkdown();
             var title= $('#title').val();
@@ -144,7 +146,7 @@
             console.log(recommend);
             $.ajax({
                 "url": '/blogs/admin/article/save',
-                "data": {'id':id,'content':content,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description},
+                "data": {'id':id,'userId':userId,'content':content,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description},
                 "type": "POST",
                 "dataType": "JSON",
                 beforeSend: LoadFunction, //加载执行方法
