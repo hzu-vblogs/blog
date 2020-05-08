@@ -20,4 +20,20 @@
     id, content, article_id, good_nums, `name`, email, is_root, is_reply, create_day, 
     parent_id
   </sql>
+
+  <select id="selectByArticleId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comments
+    where article_id = #{articleId}
+    order by create_day
+  </select>
+
+
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comments
+    where parent_id = #{parentId}
+  </select>
 </mapper>

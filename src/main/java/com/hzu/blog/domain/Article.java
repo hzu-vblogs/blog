@@ -1,10 +1,15 @@
 package com.hzu.blog.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -77,6 +82,8 @@ public class Article implements Serializable {
      */
     @Column(name = "is_recommend")
     private Boolean isRecommend;
+
+    List<Comments> comments;
 
     private static final long serialVersionUID = 1L;
 }

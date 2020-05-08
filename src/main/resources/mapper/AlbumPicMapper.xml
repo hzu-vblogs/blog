@@ -14,4 +14,12 @@
     <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
     id, description, url, create_day, album_id
   </sql>
+
+
+  <select id="selectByAlbumId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from album
+    where album_id = #{albumId}
+  </select>
 </mapper>

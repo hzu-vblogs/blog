@@ -16,6 +16,38 @@
     <result column="read_nums" jdbcType="BIGINT" property="readNums" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
   </resultMap>
+
+
+
+  <resultMap id="WithCommentsResultMap" type="com.hzu.blog.domain.Article">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_day" jdbcType="TIMESTAMP" property="createDay" />
+    <result column="update_day" jdbcType="TIMESTAMP" property="updateDay" />
+    <result column="good_nums" jdbcType="BIGINT" property="goodNums" />
+    <result column="read_nums" jdbcType="BIGINT" property="readNums" />
+    <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
+    <collection property="comments" ofType="com.hzu.blog.domain.Comments">
+      <id column="cId" jdbcType="BIGINT" property="id" />
+      <result column="cContent" jdbcType="VARCHAR" property="content" />
+      <result column="article_id" jdbcType="BIGINT" property="articleId" />
+      <result column="cGood" jdbcType="BIGINT" property="goodNums" />
+      <result column="cName" jdbcType="VARCHAR" property="name" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="is_root" jdbcType="BIT" property="isRoot" />
+      <result column="is_reply" jdbcType="BIT" property="isReply" />
+      <result column="cCreate" jdbcType="TIMESTAMP" property="createDay" />
+      <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    </collection>
+  </resultMap>
+
+
+
+
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
     id, title, category_id, user_id, description, content, create_day, update_day, good_nums, 
@@ -35,6 +67,42 @@
   </select>
 
   <select id="totalCount" resultMap="BaseResultMap">
-    select count(*) from category
+    select count(*) from article
   </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from article
+    where user_id = #{userId}
+  </select>
+
+  <select id="selectOneWithComments" resultMap="WithCommentsResultMap">
+    select
+    a.id,
+    a.title,
+    a.category_id,
+    a.user_id,
+    a.description,
+    a.content,
+    a.create_day,
+    a.update_day,
+    a.good_nums,
+    a.read_nums,
+    a.is_recommend,
+    co.id as cId,
+    co.content as cContent,
+    co.article_id,
+    co.good_nums as cGood,
+    co.name cName,
+    co.email,
+    co.is_root,
+    co.is_reply,
+    co.create_day as cCreate,
+    co.parent_id
+    from article a
+    left join comments co on  a.id = co.article_id
+    where a.id = #{articleId}
+  </select>
+
 </mapper>

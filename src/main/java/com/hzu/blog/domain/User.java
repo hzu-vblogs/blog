@@ -1,9 +1,14 @@
 package com.hzu.blog.domain;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +27,7 @@ public class User implements Serializable {
 
     @Column(name = "email")
     private String email;
-
+    @JsonIgnore
     @Column(name = "`password`")
     private String password;
 
