@@ -15,4 +15,44 @@
     <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
     id, `name`, user_id, url, create_day, singer
   </sql>
+
+
+
+  <select id="page" resultMap="BaseResultMap">
+    select * from music
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="singer != null">
+        AND singer = #{singer}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="totalCount" resultType="int">
+    select count(*) from music
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="singer != null">
+        AND singer = #{singer}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from music
+    where user_id = #{userId}
+  </select>
 </mapper>

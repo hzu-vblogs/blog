@@ -6,4 +6,7 @@ import com.hzu.blog.domain.User;
 public interface UserService extends BaseService<User> {
     User getByEmail(String email);
 
+    void updateTest();
+
+    void insertTest();
 }

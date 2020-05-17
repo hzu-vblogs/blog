@@ -58,10 +58,12 @@ public class ArticleServiceImpl extends AbstractBaseServiceImpl<Article, Article
     }
 
     private void addChildren(Comments root,List<Comments> target){
-        Comments comments = commentsMapper.selectByParentId(root.getId());
-        if (comments!=null){
-            target.add(comments);
-            addChildren(comments,target);
+        List<Comments> comments = commentsMapper.selectByParentId(root.getId());
+        if (comments!=null&&!comments.isEmpty()){
+            for (int i=0;i<comments.size();i++){
+                target.add(comments.get(i));
+                addChildren(comments.get(i),target);
+            }
         }
     }
 

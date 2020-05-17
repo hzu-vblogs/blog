@@ -1,0 +1,135 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>分类表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <input type="hidden" name="id" id="id" th:value="${album?.getId()}">
+    <input type="hidden" name="userId" th:value="${session.user?.getId()}">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">相册名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="相册名称不能为空" placeholder="请输入相册名称" th:value="${album?.getName()}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">相册描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="description" id="description" lay-verify="required" lay-reqtext="相册描述不能为空" placeholder="相册描述" th:value="${album?.getDescription()}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否可见</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" checked="checked" id="open" name="open" th:value="${album?.getIsVisible()}" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="/blogs/static/asserts/app/jquery.min.js"></script>
+<script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
+<script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        var isRecomend = '[[${album.isVisible}]]';
+        var open = document.getElementById("open"); //server为select定义的id
+        console.log(isRecomend);
+        if (isRecomend == 'true') {
+            open.setAttribute('checked', 'checked');
+        }
+        if (isRecomend == 'false') {
+            console.log(111);
+
+            $("#open").removeAttr('checked');
+        }
+
+
+        var recommend = true;
+        layui.use(['form'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                $ = layui.$;
+
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                var userId = '[[${session.user.id}]]';
+                console.log(data.name);
+                var id = $('#id').val();
+                var name = $('#name').val();
+                var description = $('#description').val();
+                console.log(name);
+                $.ajax({
+                    "url": '/blogs/admin/album/save',
+                    "data": {
+                        'id': id,
+                        'userId': userId,
+                        'name': name,
+                        'isVisible': recommend,
+                        'description': description
+                    },
+                    "type": "POST",
+                    "dataType": "JSON",
+                    beforeSend: LoadFunction, //加载执行方法
+                    error: erryFunction,  //错误执行方法
+                    success: succFunction //成功执行方法
+                });
+
+                function LoadFunction() {
+                    layer.msg('加载中', {
+                        icon: 16
+                        , shade: 0.01
+                    });
+                }
+
+                function erryFunction() {
+                    layer.msg("出错了");
+                }
+
+                function succFunction(result) {
+                    console.log(result);
+                    if (result.status == 200) {
+                        parent.layer.msg(result.message, {icon: 6, time: 500}, function () {
+                            parent.window.location.reload();
+                        });
+
+                        layer.closeAll();
+                    } else {
+                        layer.msg(result.message, {icon: 5, time: 2000});
+                    }
+                }
+
+                return false;
+            });
+
+            //监听指定开关
+            form.on('switch(switchTest)', function (data) {
+                recommend = this.checked;
+            });
+
+        });
+    })
+</script>
+</body>
+</html>

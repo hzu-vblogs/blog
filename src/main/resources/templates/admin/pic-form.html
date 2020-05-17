@@ -1,0 +1,108 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>分类表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <input type="hidden" name="albumId" th:value="${albumPic?.getAlbumId()}">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">相片描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="description" lay-verify="required" lay-reqtext="相片描述不能为空" placeholder="请输入相片描述" th:value="${albumPic?.getDescription()}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">url</label>
+        <div class="layui-input-block">
+            <input type="text" name="url" id="pic"  readonly="readonly"  lay-verify="required" lay-reqtext="请先上传图片再保存" placeholder="url" th:value="${albumPic?.getUrl()}" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">点击上传</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test1" >上传图片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1">
+                <p id="demoText"></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/blogs/static/asserts/app/jquery.min.js"></script>
+<script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
+<script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form','upload'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: '/blogs/uploadPic' //改成您自己的上传接口
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo1').attr('height', '200px');   //设置图片高度
+                });
+            }
+            ,done: function(res){
+                console.log(res);
+                if (res.status == 200){
+                    $('#pic').val(res.data)
+                }
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            App.handleSaveForm('/blogs/admin/album/pic/save',data.field,layer,'');
+        });
+
+    });
+</script>
+</body>
+</html>

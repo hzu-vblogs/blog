@@ -1,10 +1,14 @@
 package com.hzu.blog.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -56,6 +60,15 @@ public class Comments implements Serializable {
      */
     @Column(name = "parent_id")
     private Long parentId;
+
+    /**
+     * 回复评论的人的名称
+     */
+    @Column(name = "response_name")
+    private String responseName;
+
+    //为了方便传参无实际作用
+    private Long userId;
 
     private static final long serialVersionUID = 1L;
 }

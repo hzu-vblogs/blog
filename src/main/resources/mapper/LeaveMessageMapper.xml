@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzu.blog.mapper.LeaveMessageMapper">
   <resultMap id="BaseResultMap" type="com.hzu.blog.domain.LeaveMessage">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
+    <!--@mbg.generated generated on Sat May 16 17:40:07 CST 2020.-->
     <!--@Table leave_message-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -12,10 +12,70 @@
     <result column="is_parent" jdbcType="BIT" property="isParent" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="is_root" jdbcType="BIT" property="isRoot" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="is_response" jdbcType="BIT" property="isResponse" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
-    id, `name`, email, content, create_day, is_parent, parent_id, is_root, user_id
+    <!--@mbg.generated generated on Sat May 16 17:40:07 CST 2020.-->
+    id, `name`, email, content, create_day, is_parent, parent_id, is_root, user_id, is_response
   </sql>
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from leave_message
+    where user_id = #{userId}
+  </select>
+
+
+  <select id="page" resultMap="BaseResultMap">
+    select * from leave_message
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+      <if test="email != null and email != ''">
+        AND email like CONCAT ('%',#{email},'%')
+      </if>
+      <if test="content != null and content != ''">
+        AND content like CONCAT ('%',#{content},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="totalCount" resultType="int">
+    select count(*) from leave_message
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+      <if test="email != null and email != ''">
+        AND email like CONCAT ('%',#{email},'%')
+      </if>
+      <if test="content != null and content != ''">
+        AND content like CONCAT ('%',#{content},'%')
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from leave_message
+    where parent_id = #{parentId}
+  </select>
+  <delete id="deleteMulti">
+    DELETE FROM leave_message
+    WHERE id IN
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

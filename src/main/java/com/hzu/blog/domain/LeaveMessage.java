@@ -43,7 +43,10 @@ public class LeaveMessage implements Serializable {
      * 留言给哪一个用户
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
+
+    @Column(name = "is_response")
+    private Boolean isResponse;
 
     private static final long serialVersionUID = 1L;
 }

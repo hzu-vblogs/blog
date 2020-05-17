@@ -4,7 +4,9 @@ server:
     context-path: /blogs
 
 spring:
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
   thymeleaf:
     cache: false # 开发时关闭缓存,不然没法看到实时页面
     mode: HTML # 用非严格的 HTML
@@ -25,7 +27,22 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-
+  #配置邮箱
+  mail:
+    host: smtp.qq.com # 邮箱服务商的protocol服务器主机
+    port: 465
+    protocol: smtp #smtp
+    username:  1303182826@qq.com #指定邮箱服务商的邮箱账号
+    nickname: 'vblogs系统' #后台系统
+    password:   #邮箱账号密码或者三方登录授权码
+    default-encoding:  UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true #调试模式
+    test-connection: false #启动项目时验证是否可以正确通信 默认为false
 mybatis:
   type-aliases-package: com.hzu.blog.domain
   mapper-locations: classpath:mapper/*.xml

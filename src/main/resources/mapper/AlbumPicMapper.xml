@@ -19,7 +19,33 @@
   <select id="selectByAlbumId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from album
+    from album_pic
     where album_id = #{albumId}
+  </select>
+
+
+
+  <select id="page" resultMap="BaseResultMap">
+    select * from album_pic
+    <where>
+      <if test="albumId != null">
+        AND album_id = #{albumId,jdbcType=BIGINT}
+      </if>
+      <if test="description != null">
+        AND description like CONCAT ('%',#{description},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="totalCount" resultType="int">
+    select count(*) from album_pic
+    <where>
+      <if test="albumId != null">
+        AND album_id = #{albumId,jdbcType=BIGINT}
+      </if>
+      <if test="description != null">
+        AND description like CONCAT ('%',#{description},'%')
+      </if>
+    </where>
   </select>
 </mapper>

@@ -47,10 +47,11 @@
 
 
     <div id="test-editor" class="layui-form-item">
-<!--        <textarea style="display:none;" lay-verify="required" lay-reqtext="文章内容不能为空" id="content" th:value="${article?.getContent()}">尽情的书写吧</textarea>-->
         <textarea class="editormd-markdown-textarea" style="display:none;" lay-verify="required" lay-reqtext="文章内容不能为空" id="content" th:text="${article?.getContent()}"></textarea>
-    </div>
 
+        <textarea class="editormd-html-textarea"  id="htmlContent" name="htmlContent"></textarea>
+
+    </div>
     <div class="layui-form-item" style="float: right;margin-right: 32px">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
@@ -64,9 +65,14 @@
 <script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
 
-
+    var form;
 
     $(function () {
+        layui.use(['form'], function () {
+            form = layui.form;
+        });
+
+
         var isRecomend = '[[${article.isRecommend}]]';
         var open = document.getElementById("open"); //server为select定义的id
         console.log(isRecomend);
@@ -79,13 +85,6 @@
             $("#open").removeAttr('checked');
         }
 
-
-
-
-        var form1;
-        layui.use(['form'], function () {
-             form1 = layui.form;});
-
         var categoryId = '[[${article.categoryId}]]';
 
         var userId = '[[${session.user.id}]]';
@@ -93,6 +92,7 @@
             url:"/blogs/admin/category/"+userId,
             type:"GET",
             dataType:"json",
+            async:false,
             success:function(result){
                 var list = result.data;    //返回的数据
                 var server = document.getElementById("server"); //server为select定义的id
@@ -107,8 +107,9 @@
                     option.setAttribute("value",list[j].id); // 给option的value添加值
                     option.innerText=list[j].name;     // 打印option对应的纯文本
                     server.appendChild(option);           //给select添加option子标签
-                    form1.render();            // 刷性select，显示出数据
+
                 }
+                // form.render();            // 刷性select，显示出数据
 
             } });
     })
@@ -120,9 +121,16 @@
          editor = editormd("test-editor", {
             width  : "95vw",
             height : "80vh",
-            path   : "/blogs/static/asserts/plugins/editormd/lib/"
+            path   : "/blogs/static/asserts/plugins/editormd/lib/",
+            saveHTMLToTextarea : true,
+             emoji : true,
+             imageUpload : false,//开启上传图片吗？
+             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],//图片支持的格式
+             imageUploadURL : "/blogs/mdUploadPic", //处理图片上传的url
         });
     });
+
+
 
     function publishArticle() {
 
@@ -130,23 +138,25 @@
 
     var recommend = true;
     layui.use(['form'], function () {
-         var form = layui.form,
-            layer = layui.layer,
+          form = layui.form;
+            var layer = layui.layer,
             $ = layui.$;
-
+        form.render();            // 刷性select，显示出数据
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             var userId = '[[${session.user.id}]]';
 
             var id = $('#id').val();
             var content= editor.getMarkdown();
+            var htmlContent = editor.getHTML();
+
             var title= $('#title').val();
             var categoryId = $('#server').val();
             var description = $('#description').val();
             console.log(recommend);
             $.ajax({
                 "url": '/blogs/admin/article/save',
-                "data": {'id':id,'userId':userId,'content':content,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description},
+                "data": {'id':id,'userId':userId,'content':content,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description,'htmlContent':htmlContent},
                 "type": "POST",
                 "dataType": "JSON",
                 beforeSend: LoadFunction, //加载执行方法

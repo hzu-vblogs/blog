@@ -27,8 +27,16 @@
     </where>
   </select>
 
-  <select id="totalCount" resultMap="BaseResultMap">
+  <select id="totalCount" resultType="int">
     select count(*) from category
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="name != null and name != ''">
+        AND name like CONCAT ('%',#{name},'%')
+      </if>
+    </where>
   </select>
 
     <select id="getCategoryByUserId" resultType="com.hzu.blog.pojo.vo.CategoryVO">

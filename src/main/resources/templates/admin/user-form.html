@@ -36,12 +36,26 @@
             <input type="email" name="email" placeholder="请输入邮箱" th:value="${session.user?.getEmail()}" readonly="readonly" class="layui-input">
         </div>
     </div>
-<!--    <div class="layui-form-item">-->
-<!--        <label class="layui-form-label">头像</label>-->
-<!--        <div class="layui-input-block">-->
-<!--            <input type="text" name="icon"  placeholder="" value="" class="layui-input" readonly="readonly">-->
-<!--        </div>-->
-<!--    </div>-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">头像</label>
+        <div class="layui-input-block">
+            <input type="text" name="icon" id="pic"  readonly="readonly"  lay-verify="required" lay-reqtext="请先上传图片再保存" placeholder="url" th:value="${session.user?.getIcon()}" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">点击上传</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test1" >上传头像</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1">
+                <p id="demoText"></p>
+            </div>
+        </div>
+    </div>
+
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">介绍</label>
         <div class="layui-input-block">
@@ -60,10 +74,57 @@
 <script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
 <script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form'], function () {
+
+    $(function () {
+        var icon = '[[${session.user.icon}]]';
+        console.log(icon);
+        if (icon!==''){
+            console.log("进来了");
+            $('#demo1').attr('src', icon); //图片链接（base64）
+            $('#demo1').attr('height', '200px');
+        }
+
+    });
+
+    layui.use(['form','upload'], function () {
         var form = layui.form,
             layer = layui.layer,
-            $ = layui.$;
+            $ = layui.$,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: '/blogs/uploadPic' //改成您自己的上传接口
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                    $('#demo1').attr('height', '200px');   //设置图片高度
+                });
+            }
+            ,done: function(res){
+                console.log(res);
+                if (res.status == 200){
+                    $('#pic').val(res.data)
+                }
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
@@ -72,6 +133,9 @@
         });
 
     });
+
+
+
 </script>
 </body>
 </html>

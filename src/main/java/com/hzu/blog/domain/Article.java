@@ -83,7 +83,10 @@ public class Article implements Serializable {
     @Column(name = "is_recommend")
     private Boolean isRecommend;
 
-    List<Comments> comments;
+    @Column(name = "html_content")
+    private String htmlContent;
+
+    private List<Comments> comments;
 
     private static final long serialVersionUID = 1L;
 }

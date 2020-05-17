@@ -1,6 +1,9 @@
 package com.hzu.blog.service;
 
-public interface VisitLogService{
+import com.hzu.blog.abstracts.BaseService;
+import com.hzu.blog.domain.VisitLog;
+
+public interface VisitLogService extends BaseService<VisitLog> {
 
 
 }

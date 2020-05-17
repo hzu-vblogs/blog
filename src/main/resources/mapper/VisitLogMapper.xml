@@ -15,4 +15,45 @@
     <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
     id, ip, request_url, create_day, visit_status, user_id
   </sql>
+
+
+  <select id="page" resultMap="BaseResultMap">
+    select * from visit_log
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="requestUrl != null and requestUrl != ''">
+        AND request_url like CONCAT ('%',#{requestUrl},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="totalCount" resultType="int">
+    select count(*) from visit_log
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="requestUrl != null and requestUrl != ''">
+        AND request_url like CONCAT ('%',#{requestUrl},'%')
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from visit_log
+    where user_id = #{userId}
+  </select>
+
+
 </mapper>
