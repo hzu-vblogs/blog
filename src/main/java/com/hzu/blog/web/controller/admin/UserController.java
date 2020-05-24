@@ -23,8 +23,9 @@ public class UserController extends AbstractController<User,UserService> {
      * @return
      */
     @Override
+    @RequestMapping(value = "list")
     public String list() {
-        return null;
+        return "admin/system-form";
     }
 
     @RequestMapping(value = "/message")
@@ -99,8 +100,18 @@ public class UserController extends AbstractController<User,UserService> {
      * @return
      */
     @Override
+    @RequestMapping(value = "/page")
+    @ResponseBody
     public BaseResult page(PaginationDto paginationDto, User entity) {
         return super.page(paginationDto, entity);
     }
+
+    @RequestMapping(value = "/unlock")
+    @ResponseBody
+    public BaseResult unlock(Long id) {
+        service.unLock(service.getById(id));
+        return BaseResult.success();
+    }
+
 
 }

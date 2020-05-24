@@ -135,7 +135,8 @@
                 });
 
             }else {
-                layer.msg(tt.message,{icon: 5},function () {
+                layer.msg(tt.message,{icon: 5,time: 500},function () {
+                    window.location.reload();
                 });
             }
 

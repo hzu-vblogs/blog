@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzu.blog.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.hzu.blog.domain.User">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
+    <!--@mbg.generated generated on Fri May 22 18:22:38 CST 2020.-->
     <!--@Table user-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -10,10 +10,11 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="lock_status" jdbcType="BIT" property="lockStatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Mon Mar 23 12:09:54 CST 2020.-->
-    id, username, email, `password`, introduction, icon
+    <!--@mbg.generated generated on Fri May 22 18:22:38 CST 2020.-->
+    id, username, email, `password`, introduction, icon, lock_status
   </sql>
 
   <select id="getByEmail" resultMap="BaseResultMap">
@@ -21,5 +22,18 @@
     <include refid="Base_Column_List" />
     FROM user as a
     WHERE a.email = #{email}
+  </select>
+
+  <select id="page" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM user as a
+    WHERE a.lock_status = 1
+  </select>
+
+  <select id="totalCount" resultType="int">
+    select count(*) from user as a
+     WHERE a.lock_status = 1
+
   </select>
 </mapper>

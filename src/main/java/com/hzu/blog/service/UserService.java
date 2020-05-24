@@ -9,4 +9,8 @@ public interface UserService extends BaseService<User> {
     void updateTest();
 
     void insertTest();
+
+    void lock(User user);
+
+    void unLock(User user);
 }

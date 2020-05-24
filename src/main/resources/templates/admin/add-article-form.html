@@ -2,22 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>保存文章</title>
+    <title>分类表单</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/blogs/static/asserts/plugins/editormd/css/editormd.css" />
     <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
     <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/css/public.css" media="all">
-
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-
 <div class="layui-form layuimini-form">
 
 
 
-    <input type="hidden" id="id" th:value="${article?.getId()}">
+    <input type="hidden" id="filename" name="filename" value="">
 
     <div class="layui-form-item">
         <label class="layui-form-label required">请输入文章标题</label>
@@ -34,39 +36,34 @@
 
         <label class="layui-form-label">设置为推荐文章</label>
         <div class="layui-input-inline">
-            <input type="checkbox" checked="checked" id="open" name="open" th:value="${article?.getIsRecommend()}" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+            <input type="checkbox" checked="checked" id="open" name="open"  lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">请输入文章描述</label>
         <div class="layui-input-block" >
-            <textarea placeholder="请输入内容" style="width: 88vw" lay-verify="required" lay-reqtext="文章描述不能为空"  class="layui-textarea" id="description" cols="80"  name="description" th:text="${article?.getDescription()}"></textarea>
+            <textarea placeholder="请输入内容" lay-verify="required" lay-reqtext="文章描述不能为空" style="width: 88vw" class="layui-textarea" id="description" cols="80"  name="description" th:text="${article?.getDescription()}"></textarea>
         </div>
     </div>
 
-
-    <div id="test-editor" class="layui-form-item">
-        <textarea class="editormd-markdown-textarea" style="display:none;" lay-verify="required" lay-reqtext="文章内容不能为空" id="content" th:text="${article?.getContent()}"></textarea>
-
-        <textarea class="editormd-html-textarea"  id="htmlContent" name="htmlContent"></textarea>
-
+    <div class="layui-form-item">
+        <label class="layui-form-label">点击上传</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>导入markdowm文件</button>
+        </div>
     </div>
     <div class="layui-form-item" style="float: right;margin-right: 32px">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
+            <button class="layui-btn" lay-submit lay-filter="saveBtn">确认导入</button>
         </div>
     </div>
 </div>
 
 <script type="text/javascript" src="/blogs/static/asserts/app/jquery.min.js"></script>
 <script type="text/javascript" src="/blogs/static/asserts/app/app.js"></script>
-<script src="/blogs/static/asserts/plugins/editormd/editormd.min.js" charset="utf-8"></script>
 <script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
-<script type="text/javascript">
-
-    var form;
-
+<script>
     $(function () {
         layui.use(['form'], function () {
             form = layui.form;
@@ -114,51 +111,27 @@
             } });
     })
 
-
-
-    var editor;
-    $(function() {
-         editor = editormd("test-editor", {
-            width  : "95vw",
-            height : "80vh",
-            path   : "/blogs/static/asserts/plugins/editormd/lib/",
-            // saveHTMLToTextarea : true,
-             emoji : true,
-             imageUpload : false,//开启上传图片吗？
-             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],//图片支持的格式
-             imageUploadURL : "/blogs/uploadfile", //处理图片上传的url
-             onload: function () {
-                console.log("成功了");
-             }
-        });
-    });
-
-
-
-    function publishArticle() {
-
-    }
-
     var recommend = true;
-    layui.use(['form'], function () {
-          form = layui.form;
-            var layer = layui.layer,
-            $ = layui.$;
+    layui.use(['form','upload'], function () {
+        form = layui.form;
+        var layer = layui.layer,
+            upload = layui.upload,
+        $ = layui.$;
         form.render();            // 刷性select，显示出数据
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             var userId = '[[${session.user.id}]]';
 
             var id = $('#id').val();
-            var content= editor.getMarkdown();
+            var filename = $('#filename').val();
 
             var title= $('#title').val();
             var categoryId = $('#server').val();
             var description = $('#description').val();
             console.log(recommend);
             $.ajax({
-                "url": '/blogs/admin/article/save',
-                "data": {'id':id,'userId':userId,'content':content,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description},
+                "url": '/blogs/admin/article/import',
+                "data": {'id':id,'userId':userId,'title':title,'categoryId':categoryId,'isRecommend':recommend,'description':description,'filename':filename},
                 "type": "POST",
                 "dataType": "JSON",
                 beforeSend: LoadFunction, //加载执行方法
@@ -181,7 +154,7 @@
                 console.log(result);
                 if (result.status == 200) {
                     parent.layer.msg(result.message, {icon: 6, time: 500}, function () {
-                       window.location.reload();
+                        parent.window.location.reload();
                     });
 
                     layer.closeAll();
@@ -197,7 +170,28 @@
             recommend = this.checked;
         });
 
+
+        upload.render({ //允许上传的文件后缀
+            elem: '#test3'
+            ,url: '/blogs/uploadArticle' //改成您自己的上传接口
+            ,accept: 'file' //普通文件
+            ,exts: 'md' //只允许上传压缩文件
+            ,done: function(res){
+                if (res.status == 200){
+                    $('#filename').val(res.data);
+                    layer.msg('上传成功',{icon:6,time:500});
+
+                }else
+                    layer.msg('上传失败',{icon:2,time:500});
+
+                console.log(res)
+            }
+        });
+
     });
+
+
+
 </script>
 </body>
 </html>

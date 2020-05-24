@@ -4,6 +4,17 @@ server:
     context-path: /blogs
 
 spring:
+  redis:
+    host: 47.112.174.9
+    port: 6379
+    password:
+    # redis默认情况下有16个分片，这里配置具体使用的分片，默认为0
+    database: 0
+    lettuce:
+      pool:
+        # 连接池最大连接数(使用负数表示没有限制),默认8
+        max-active: 100
+
   servlet:
     multipart:
       max-file-size: 10MB
@@ -16,7 +27,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.107.102.132:3306/vblogs?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://47.107.102.132:3306/vblogs?useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: softwareWorker
     password: 123456789.zGG
     hikari:
@@ -34,7 +45,7 @@ spring:
     protocol: smtp #smtp
     username:  1303182826@qq.com #指定邮箱服务商的邮箱账号
     nickname: 'vblogs系统' #后台系统
-    password:   #邮箱账号密码或者三方登录授权码
+    password:  fvornskfjfkebabj #邮箱账号密码或者三方登录授权码
     default-encoding:  UTF-8
     properties:
       mail:

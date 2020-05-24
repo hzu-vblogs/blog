@@ -1,6 +1,7 @@
 package com.hzu.blog.service.impl;
 
 import com.hzu.blog.abstracts.AbstractBaseServiceImpl;
+import com.hzu.blog.common.utils.MarkdownUtils;
 import com.hzu.blog.domain.Article;
 import com.hzu.blog.domain.Comments;
 import com.hzu.blog.mapper.ArticleMapper;
@@ -37,8 +38,9 @@ public class ArticleServiceImpl extends AbstractBaseServiceImpl<Article, Article
         Article article = articleMapper.selectOneWithComments(articleId);
         List<Comments> target = sortComments(article.getComments());
         article.setReadNums(article.getReadNums()+1);
-        article.setComments(target);
         articleMapper.updateByPrimaryKeySelective(article);
+        article.setComments(target);
+        article.setContent(MarkdownUtils.markdownToHtmlExtensions(article.getContent()));
         return article;
     }
 

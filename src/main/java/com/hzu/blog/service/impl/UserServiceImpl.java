@@ -29,4 +29,16 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<User, UserMapper> i
         dao.insert(user);
         int i = 100/0;
     }
+
+    @Override
+    public void lock(User user) {
+        user.setLockStatus(true);
+        dao.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public void unLock(User user) {
+        user.setLockStatus(false);
+        dao.updateByPrimaryKeySelective(user);
+    }
 }

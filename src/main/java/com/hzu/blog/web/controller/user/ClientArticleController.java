@@ -1,11 +1,14 @@
 package com.hzu.blog.web.controller.user;
 
 import com.hzu.blog.common.dto.BaseResult;
+import com.hzu.blog.domain.Article;
 import com.hzu.blog.pojo.dto.CommentsDto;
 import com.hzu.blog.service.ArticleService;
 import com.hzu.blog.service.CommentsService;
+import com.hzu.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,8 @@ public class ClientArticleController {
     private ArticleService articleService;
     @Autowired
     private CommentsService commentsService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 根据用户id查询所有的文章
@@ -29,10 +34,13 @@ public class ClientArticleController {
         return BaseResult.success("success",articleService.selectByUserId(userId));
     }
 
-    @ResponseBody
+
     @RequestMapping("/detail/{articleId}")
-    public BaseResult lookDetail(@PathVariable("articleId") Long articleId){
-        return BaseResult.success("success",articleService.lookDetail(articleId));
+    public String lookDetail(@PathVariable("articleId") Long articleId, Model model){
+        Article article = articleService.lookDetail(articleId);
+        model.addAttribute("article",article);
+        model.addAttribute("author",userService.getById(article.getUserId()).getUsername());
+        return "user/article_detail";
     }
 
 

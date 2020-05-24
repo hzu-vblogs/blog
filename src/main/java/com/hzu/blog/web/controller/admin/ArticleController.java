@@ -5,16 +5,23 @@ import com.hzu.blog.common.dto.BaseResult;
 import com.hzu.blog.common.dto.PaginationDto;
 import com.hzu.blog.domain.Article;
 import com.hzu.blog.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/admin/article")
 public class ArticleController extends AbstractController<Article, ArticleService> {
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
 
     @ModelAttribute
@@ -42,6 +49,12 @@ public class ArticleController extends AbstractController<Article, ArticleServic
     @RequestMapping(value = "form")
     public String form(){
         return "admin/article";
+    }
+
+
+    @RequestMapping(value = "page/import")
+    public String pageImport(){
+        return "admin/add-article-form";
     }
 
     /**
@@ -106,5 +119,21 @@ public class ArticleController extends AbstractController<Article, ArticleServic
     @RequestMapping(value = "/delete")
     public BaseResult delete(Long id) {
         return super.delete(id);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/import")
+    public BaseResult importArticle(@NotNull String filename,Article article) {
+        String content = (String) redisTemplate.opsForValue().get(filename);
+        if (StringUtils.isEmpty(content))
+            System.out.println("内容为空");
+        article.setContent(content);
+        article.setCreateDay(new Date());
+        article.setReadNums(0L);
+        article.setUpdateDay(new Date());
+        article.setGoodNums(0L);
+        service.insert(article);
+        return BaseResult.success();
     }
 }

@@ -1,14 +1,9 @@
 package com.hzu.blog.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +22,7 @@ public class User implements Serializable {
 
     @Column(name = "email")
     private String email;
-    @JsonIgnore
+
     @Column(name = "`password`")
     private String password;
 
@@ -42,6 +37,12 @@ public class User implements Serializable {
      */
     @Column(name = "icon")
     private String icon;
+
+    /**
+     * 1表示用户被锁定
+     */
+    @Column(name = "lock_status")
+    private Boolean lockStatus;
 
     private static final long serialVersionUID = 1L;
 }

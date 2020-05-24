@@ -2,25 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzu.blog.mapper.ArticleMapper">
   <resultMap id="BaseResultMap" type="com.hzu.blog.domain.Article">
-    <!--@mbg.generated generated on Sun May 17 14:03:36 CST 2020.-->
+    <!--@mbg.generated generated on Sun May 24 13:41:24 CST 2020.-->
     <!--@Table article-->
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="category_id" jdbcType="BIGINT" property="categoryId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="create_day" jdbcType="TIMESTAMP" property="createDay" />
     <result column="update_day" jdbcType="TIMESTAMP" property="updateDay" />
     <result column="good_nums" jdbcType="BIGINT" property="goodNums" />
     <result column="read_nums" jdbcType="BIGINT" property="readNums" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
-    <result column="html_content" jdbcType="VARCHAR" property="htmlContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Sun May 17 14:03:36 CST 2020.-->
+    <!--@mbg.generated generated on Sun May 24 13:41:24 CST 2020.-->
     id, title, category_id, user_id, description, content, create_day, update_day, good_nums, 
-    read_nums, is_recommend, html_content
+    read_nums, is_recommend
   </sql>
 
 

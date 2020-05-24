@@ -2,12 +2,10 @@ package com.hzu.blog.web.controller.admin;
 
 import com.hzu.blog.common.dto.BaseResult;
 import com.hzu.blog.domain.*;
-import com.hzu.blog.mapper.AlbumMapper;
-import com.hzu.blog.mapper.ArticleMapper;
-import com.hzu.blog.mapper.CategoryMapper;
-import com.hzu.blog.mapper.VisitLogMapper;
+import com.hzu.blog.mapper.*;
 import com.hzu.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +29,11 @@ public class IndexController {
     @Autowired
     private AlbumMapper albumMapper;
 
+    @Autowired
+    private SystemMapper systemMapper;
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
     @RequestMapping(value = "/welcome")
     public String welcome(Model model, HttpServletRequest httpServletRequest){
@@ -80,10 +83,31 @@ public class IndexController {
         if (user==null){
             return BaseResult.fail("用户不存在");
         }
+        if (user.getLockStatus()){
+            return BaseResult.fail("用户已锁定，请联系管理员解锁");
+        }
+
         if (user.getPassword().equals(password)){
+           redisTemplate.opsForValue().set(user.getId().toString(),0);
+
             session.setAttribute("user",user);
             return BaseResult.success("登录成功");
         }
+
+        Integer loginErrorCount = (Integer)redisTemplate.opsForValue().get(user.getId().toString());
+        if (loginErrorCount == null){
+            redisTemplate.opsForValue().set(user.getId().toString(),1);
+        }else
+            redisTemplate.opsForValue().increment(user.getId().toString());
+
+        Integer errorCount = (Integer) redisTemplate.opsForValue().get(user.getId().toString());
+
+        System.out.println("登录错误的次数为："+errorCount);
+        if (errorCount>3){
+            userService.lock(user);
+            return BaseResult.fail("密码错误超过三次，用户已锁定，请联系管理员解锁");
+        }
+
         return BaseResult.fail("用户名或密码错误");
     }
 
@@ -107,4 +131,18 @@ public class IndexController {
 
         return BaseResult.success("注册成功");
     }
+
+    public static final String password = "abc123";
+
+    @RequestMapping(value = "/clear")
+    @ResponseBody
+    public BaseResult clear(String code){
+        if (password.equals(code)){
+            systemMapper.deleteMultiTable();
+            return BaseResult.success();
+        }
+        return BaseResult.fail("密码错误");
+    }
+
+
 }
