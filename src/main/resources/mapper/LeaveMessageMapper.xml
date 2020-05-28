@@ -28,6 +28,14 @@
   </select>
 
 
+
+  <select id="selectCountByUserId" resultType="java.lang.Integer">
+    select
+    count(*)
+    from leave_message
+    where user_id = #{userId}
+  </select>
+
   <select id="page" resultMap="BaseResultMap">
     select * from leave_message
     <where>

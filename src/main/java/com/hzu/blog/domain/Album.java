@@ -3,10 +3,7 @@ package com.hzu.blog.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -42,6 +39,9 @@ public class Album implements Serializable {
 
     @Column(name = "user_id")
     private Long userId;
+
+    @Transient
+    private String firstPic = "/blogs/static/asserts/images/logo.jpg";
 
     private static final long serialVersionUID = 1L;
 }

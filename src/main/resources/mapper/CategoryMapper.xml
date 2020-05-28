@@ -25,6 +25,7 @@
         AND name like CONCAT ('%',#{name},'%')
       </if>
     </where>
+    order by  sort asc
   </select>
 
   <select id="totalCount" resultType="int">

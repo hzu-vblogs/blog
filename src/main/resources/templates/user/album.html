@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>相册</title>
+    <link rel="stylesheet" href="/blogs/static/asserts/css/picture.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/css/bootstrap.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/app/main.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/blogs/static/asserts/app/animate.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/blogs/static/asserts/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<!--导航-->
+<div th:replace="~{user/header :: topbar}"></div>
+
+<div class="container" style="margin-top: 50px">
+        <div class="row mt-2">
+            <div class="col-md-12 mt-4 wow bounceInDown row1">
+				<div class="row">
+                    <div class="col-md-3 col-sm-6 " th:each="album:${albums}">
+                        <div class="card box-shadow mt-4">
+                            <div class="showimg" th:id="${album.getId()}">
+                                <img class="card-img-top"  th:src="${album.getFirstPic()}"  width="300" height="150px" data-holder-rendered="true">
+                            </div>
+                            <div class="card-body">
+                                <a th:href="@{'/album/pics/'+${album.getId()}}" th:text="${album.getName()}">测试图文</a>
+                                <div class="d-flex justify-content-between align-items-center">
+									<div class="showtitle " th:text="${album.getDescription()}">
+										描述描述
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--					<div class="col-md-3 col-sm-6 ">-->
+<!--					    <div class="card box-shadow mt-4">-->
+<!--					        <div class="showimg">-->
+<!--					            <img class="card-img-top"  src="images/1.png" data-holder-rendered="true">-->
+<!--					        </div>-->
+<!--					        <div class="card-body">-->
+<!--					            <a href="picture2.html" >测试图文</a>-->
+<!--					            <div class="d-flex justify-content-between align-items-center">-->
+<!--									<div class="showtitle ">-->
+<!--										描述描述-->
+<!--									</div>-->
+<!--					            </div>-->
+<!--					        </div>-->
+<!--					    </div>-->
+<!--					</div>-->
+<!--					<div class="col-md-3 col-sm-6 ">-->
+<!--					    <div class="card box-shadow mt-4">-->
+<!--					        <div class="showimg">-->
+<!--					            <img class="card-img-top"  src="images/1.png" data-holder-rendered="true">-->
+<!--					        </div>-->
+<!--					        <div class="card-body">-->
+<!--					            <a href="picture2.html" >测试图文</a>-->
+<!--					            <div class="d-flex justify-content-between align-items-center">-->
+<!--									<div class="showtitle ">-->
+<!--										描述描述-->
+<!--									</div>-->
+<!--					            </div>-->
+<!--					        </div>-->
+<!--					    </div>-->
+<!--					</div>-->
+<!--					<div class="col-md-3 col-sm-6 ">-->
+<!--					    <div class="card box-shadow mt-4">-->
+<!--					        <div class="showimg">-->
+<!--					            <img class="card-img-top"  src="images/1.png" data-holder-rendered="true">-->
+<!--					        </div>-->
+<!--					        <div class="card-body">-->
+<!--					            <a href="picture2.html" >测试图文</a>-->
+<!--					            <div class="d-flex justify-content-between align-items-center">-->
+<!--									<div class="showtitle ">-->
+<!--										描述描述-->
+<!--									</div>-->
+<!--					            </div>-->
+<!--					        </div>-->
+<!--					    </div>-->
+<!--					</div>-->
+<!--					<div class="col-md-3 col-sm-6 ">-->
+<!--					    <div class="card box-shadow mt-4">-->
+<!--					        <div class="showimg">-->
+<!--					            <img class="card-img-top"  src="images/1.png" data-holder-rendered="true">-->
+<!--					        </div>-->
+<!--					        <div class="card-body">-->
+<!--					            <a href="picture2.html" >测试图文</a>-->
+<!--					            <div class="d-flex justify-content-between align-items-center">-->
+<!--									<div class="showtitle ">-->
+<!--										描述描述-->
+<!--									</div>-->
+<!--					            </div>-->
+<!--					        </div>-->
+<!--					    </div>-->
+<!--					</div>-->
+<!--					<div class="col-md-3 col-sm-6 ">-->
+<!--					    <div class="card box-shadow mt-4">-->
+<!--					        <div class="showimg">-->
+<!--					            <img class="card-img-top"  src="images/1.png" data-holder-rendered="true">-->
+<!--					        </div>-->
+<!--					        <div class="card-body">-->
+<!--					            <a href="picture2.html" >测试图文</a>-->
+<!--					            <div class="d-flex justify-content-between align-items-center">-->
+<!--									<div class="showtitle ">-->
+<!--										描述描述-->
+<!--									</div>-->
+<!--					            </div>-->
+<!--					        </div>-->
+<!--					    </div>-->
+<!--					</div>-->
+				</div>
+			</div>
+		</div>
+</div>
+
+<!-- <div id=testbox></div> -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/blogs/static/asserts/js/jquery.min.js"></script>
+<script src="/blogs/static/asserts/js/album.js"></script>
+<script src="/blogs/static/asserts/js/bootstrap.js"></script>
+<script src="/blogs/static/asserts/js/wow.js"></script>
+<script>
+    new WOW().init();//把wow初始化
+
+</script>
+
+</body>
+</html>

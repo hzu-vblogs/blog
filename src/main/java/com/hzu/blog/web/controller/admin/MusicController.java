@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @Validated
@@ -73,8 +72,8 @@ public class MusicController extends AbstractController<Music, MusicService> {
         if (entity.getId()!=null){
             service.update(entity);
         }else {
-            List<Music> byUserId = service.getByUserId(entity.getUserId());
-            if (byUserId!=null&&byUserId.size()>=1){
+            Music byUserId = service.getByUserId(entity.getUserId());
+            if (byUserId!=null){
                 return BaseResult.fail("只能添加一首音乐");
             }
             entity.setCreateDay(new Date());

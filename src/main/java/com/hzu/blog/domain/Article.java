@@ -87,4 +87,13 @@ public class Article implements Serializable {
     private List<Comments> comments;
 
     private static final long serialVersionUID = 1L;
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

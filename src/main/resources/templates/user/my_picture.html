@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>相册详情</title>
+    <link rel="stylesheet" href="/blogs/static/asserts/css/style.css" media="screen" type="text/css" />
+
+
+</head>
+
+<body>
+
+  <div class="container">
+
+            <div class="img-holder" th:each="pic:${albumPics}">
+              <img th:src="${pic.getUrl()}" width="340" height="240">
+              <div class="img-ref">
+                 <img th:src="${pic.getUrl()}">
+              </div>
+                <div class="discription" th:text="${pic.getDescription()}">图片描述</div>
+            </div>
+</div>
+
+<!-- <div class="controller">
+Go to: <input type="text" class="">
+  </div> -->
+  
+
+  <div class="scrolller-container">
+    <div class="scroller"></div>
+  </div>
+  
+  
+  
+
+  <script src='/blogs/static/asserts/js/jquery.js'></script>
+  <script src='/blogs/static/asserts/js/TweenMax.min.js'></script>
+  <script src='/blogs/static/asserts/js/Draggable.min.js'></script>
+  <script src="/blogs/static/asserts/js/index.js"></script>
+</body>
+
+</html>

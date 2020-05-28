@@ -1,0 +1,540 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>留言</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="css/message2.css">
+<link rel="stylesheet" href="css/send.css">
+<link rel="stylesheet" href="css/select2.min.css">
+<link rel="stylesheet" href="css/myPagination.css">
+<script src="js/demo.js"></script>
+<script src="js/myPagination.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/select2.min.js"></script>
+<style type="text/css">
+        *{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html{
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            -moz-user-select: none; /*火狐*/ /*禁止用户在页面选择文字*/
+            -webkit-user-select: none; /*webkit浏览器*/
+            -ms-user-select: none; /*IE10*/
+            -khtml-user-select: none; /*早期浏览器*/
+            user-select: none;
+        }
+        .code{
+            width: 400px;
+            margin:0 auto;
+        }
+        .input-val{
+            width: 295px;
+            background: #ffffff;
+            height: 2.8rem;
+            padding: 0 2%;
+            border-radius: 5px;
+            border: none;
+            border: 1px solid rgba(0,0,0,.2);
+            font-size: 1.0625rem;
+        }
+        #canvas{
+            float:right;
+            display: inline-block;
+            border:1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn{
+            width: 100px;
+            height: 40px;
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 20px auto 0;
+            display: block;
+            font-size: 1.2rem;
+            color: #e22e1c;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+	<!--页面导航栏-->
+	<div class="header" style="height: 70px;">
+		 <div class="container">
+			<div class="row">
+				<div class="col-7 col-md-9 col-lg-8 col-xl-9">
+					<div class="header__content">
+						<!-- header menu btn -->
+						<button class="header__btn" type="button">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+						<!-- end header menu btn -->
+
+						<!-- header logo -->
+						<a href="index.html" class="header__logo">
+							<img src="images/logo2.png" alt="" height="55px" width="140px">
+						</a>
+						<!-- end header logo -->
+
+						<!-- header nav -->
+						<ul class="header__nav">
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">首页</a>
+							</li>
+							<!-- end dropdown -->
+							
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">相册</a>
+							</li>
+																					 
+							<!-- end dropdown -->
+
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">音乐</a>
+							</li>
+							<!-- end dropdown -->
+
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">留言</a>
+							</li>
+							
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">管理</a>
+							</li>
+							<!-- end dropdown -->
+						</ul>
+						<!-- end header nav -->
+
+						<!-- header search -->
+						<form action="#" class="header__search">
+							<input class="header__search-input" type="text" placeholder="Search...">
+							<button class="header__search-button" type="button">
+								<i class="icon ion-ios-search"></i>
+							</button>
+						</form>
+						<!-- end header search -->
+					</div>
+				</div>
+				<div class="col-5 col-md-3 col-lg-4 col-xl-3">
+					<div class="header__content header__content--end">
+						<a href="messages.html" class="header__messages header__messages--active">
+							<i class="fa fa-envelope"></i>
+						</a>
+
+						<div class="header__notifications">
+							<a href="messages.html" class="header__messages header__messages--active">
+							<i class="fa fa-bullhorn"></i>
+						</a>
+
+							
+						</div>
+
+						<div class="header__profile">
+							<a class="dropdown-toggle header__profile-btn" href="#" role="button" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<img src="images/logo.jpg" alt="">
+								<span>时间有泪</span>
+							</a>
+							
+							<ul class="dropdown-menu dropdown-menu-right header__dropdown-menu header__dropdown-menu--right" aria-labelledby="dropdownMenuProfile">
+								<li><a href="profile.html">个人信息</a></li>
+								<li><a href="privacy.html">退出</a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--留言板-->
+    <div class="mainer">
+		<!--留言板头部导航-->
+		<div class="toper">
+			<div class="world">留言墙</div><a href="#sendmessage">发送留言</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#messback">查看留言</a>
+		</div>
+		<!--留言板发送留言板块-->
+		<div class="send" id="sendmessage">
+		    <strong>发送留言</strong><div class="line-style"></div>
+		    <div class="sendmessage">
+			   <form class="contact100-form validate-form" style="padding: 10px">
+			      <div class="wrap-input100 validate-input" data-validate="请收入合法的邮箱地址" style="margin-top: 0;width: 250px">
+				<label class="label-input100" for="email" style="padding: 10px">您的邮箱</label>
+				<input id="email" class="input100" type="text" name="email" placeholder="请输入电子邮箱" style="padding: 10px;height: 30px;padding-top: 0">
+				<span class="focus-input100"></span>
+			</div>
+
+			      <div class="wrap-input100 validate-input" data-validate="请收入合法的邮箱地址" style="margin-top: 0;width: 250px">
+				<label class="label-input100" for="email" style="padding: 10px">对方的邮箱</label>
+				<input id="email" class="input100" type="text" name="email" placeholder="请输入电子邮箱" style="padding: 10px;height: 30px;padding-top: 0">
+				<span class="focus-input100"></span>
+			</div>
+				
+			      <div class="wrap-input100 validate-input" data-validate="留言内容不能为空" style="margin-top: 0;height: 150px;width: 600px">
+				<label class="label-input100" for="message" style="padding: 10px">留言</label>
+				<textarea id="message" class="input100" name="message" placeholder="请输入留言" style="padding: 10px;height: 30px;padding-top: 0;margin-bottom: 0"></textarea>
+			</div>
+			      
+				  <div class="container-contact100-form-btn" style="margin: 10px;width: 700px;margin-left: 0;padding: 0">
+				<div class="code" style="margin-left: 0;margin-top: 0">
+    	            <input type="text" value="" placeholder="请输入验证码（不区分大小写）" class="input-val" />
+                    <canvas id="canvas" width="100" height="43"></canvas>
+                    <button class="contact100-form-btn" style="margin-top: 10px;width: 150px">提交</button>
+                </div>
+			</div>
+		       </form>
+		    </div>
+        </div>
+		<!--留言板留言墙-->
+		<div class="mess" id="messback">
+		    <strong>留言墙</strong><div class="line-style"></div>
+			<div class="messcontent">
+				<div id="list" style="width: 700px;margin-left: 10px">
+					<!--第一个留言-->
+                    <div class="box clearfix" style="width: 700px">
+                         <a class="close" href="javascript:;">×</a>
+						 <!--留言本人头像-->
+                         <img class="head" src="images/洛.jpg" alt=""/>
+                         <div class="content">
+							  <!--留言内容-->
+                              <div class="main" style="padding: 0">
+                                   <p class="txt">
+                                   <span class="user">时间有泪：</span>你好呀。
+                                   </p>
+                              </div>
+							  <!--留言时间-->
+                              <div class="info clearfix">
+                                   <span class="time">02-14 23:01</span>
+                              </div>
+                              <div class="praises-total" total="0" style="display: none;"></div>
+							  <!--留言本人回复-->
+                              <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="other" style="width: 600px">
+									    <!--留言本人头像-->
+                                        <img class="myhead" src="images/洛.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--留言本人回复我的内容及时间-->
+                                             <p class="comment-text"><span class="user">时间有泪：</span>很高兴认识你。</p>
+                                             <p class="comment-time"  style="width: 560px">
+                                                2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">回复</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--我的回复-->
+							  <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="self" style="width: 600px">
+									    <!--我的头像-->
+                                        <img class="myhead" src="images/logo.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--我回复本条留言的内容及时间-->
+                                             <p class="comment-text"><span class="user">我：</span>你好。</p>
+                                             <p class="comment-time" style="width: 560px">
+                                             2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">删除</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--下方留言回复框-->
+                              <div class="text-box">
+                                   <textarea class="comment" autocomplete="off" style="height: 30px">回复…</textarea>
+                                   <button class="btn " style="background: orange;line-height: 7px;color: rgba(0,0,0,1.00);">回 复</button>
+                                   <span class="word"><span class="length">0</span>/140</span>
+                              </div>
+                         </div>
+                    </div>
+                    <!--第二个留言-->
+                    <div class="box clearfix" style="width: 700px">
+                         <a class="close" href="javascript:;">×</a>
+						 <!--留言本人头像-->
+                         <img class="head" src="images/洛.jpg" alt=""/>
+                         <div class="content">
+							  <!--留言内容-->
+                              <div class="main" style="padding: 0">
+                                   <p class="txt">
+                                   <span class="user">时间有泪：</span>你好呀。
+                                   </p>
+                              </div>
+							  <!--留言时间-->
+                              <div class="info clearfix">
+                                   <span class="time">02-14 23:01</span>
+                              </div>
+                              <div class="praises-total" total="0" style="display: none;"></div>
+							  <!--留言本人回复-->
+                              <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="other" style="width: 600px">
+									    <!--留言本人头像-->
+                                        <img class="myhead" src="images/洛.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--留言本人回复我的内容及时间-->
+                                             <p class="comment-text"><span class="user">时间有泪：</span>很高兴认识你。</p>
+                                             <p class="comment-time"  style="width: 560px">
+                                                2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">回复</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--我的回复-->
+							  <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="self" style="width: 600px">
+									    <!--我的头像-->
+                                        <img class="myhead" src="images/logo.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--我回复本条留言的内容及时间-->
+                                             <p class="comment-text"><span class="user">我：</span>你好。</p>
+                                             <p class="comment-time" style="width: 560px">
+                                             2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">删除</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--下方留言回复框-->
+                              <div class="text-box">
+                                   <textarea class="comment" autocomplete="off" style="height: 30px">回复…</textarea>
+                                   <button class="btn " style="background: orange;line-height: 7px;color: rgba(0,0,0,1.00);">回 复</button>
+                                   <span class="word"><span class="length">0</span>/140</span>
+                              </div>
+                         </div>
+                    </div>
+					<!--第三个留言-->
+					<div class="box clearfix" style="width: 700px">
+                         <a class="close" href="javascript:;">×</a>
+						 <!--留言本人头像-->
+                         <img class="head" src="images/洛.jpg" alt=""/>
+                         <div class="content">
+							  <!--留言内容-->
+                              <div class="main" style="padding: 0">
+                                   <p class="txt">
+                                   <span class="user">时间有泪：</span>你好呀。
+                                   </p>
+                              </div>
+							  <!--留言时间-->
+                              <div class="info clearfix">
+                                   <span class="time">02-14 23:01</span>
+                              </div>
+                              <div class="praises-total" total="0" style="display: none;"></div>
+							  <!--留言本人回复-->
+                              <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="other" style="width: 600px">
+									    <!--留言本人头像-->
+                                        <img class="myhead" src="images/洛.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--留言本人回复我的内容及时间-->
+                                             <p class="comment-text"><span class="user">时间有泪：</span>很高兴认识你。</p>
+                                             <p class="comment-time"  style="width: 560px">
+                                                2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">回复</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--我的回复-->
+							  <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="self" style="width: 600px">
+									    <!--我的头像-->
+                                        <img class="myhead" src="images/logo.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--我回复本条留言的内容及时间-->
+                                             <p class="comment-text"><span class="user">我：</span>你好。</p>
+                                             <p class="comment-time" style="width: 560px">
+                                             2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">删除</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--下方留言回复框-->
+                              <div class="text-box">
+                                   <textarea class="comment" autocomplete="off" style="height: 30px">回复…</textarea>
+                                   <button class="btn " style="background: orange;line-height: 7px;color: rgba(0,0,0,1.00);">回 复</button>
+                                   <span class="word"><span class="length">0</span>/140</span>
+                              </div>
+                         </div>
+                    </div>
+					<!--第四个留言-->
+					<div class="box clearfix" style="width: 700px">
+                         <a class="close" href="javascript:;">×</a>
+						 <!--留言本人头像-->
+                         <img class="head" src="images/洛.jpg" alt=""/>
+                         <div class="content">
+							  <!--留言内容-->
+                              <div class="main" style="padding: 0">
+                                   <p class="txt">
+                                   <span class="user">时间有泪：</span>你好呀。
+                                   </p>
+                              </div>
+							  <!--留言时间-->
+                              <div class="info clearfix">
+                                   <span class="time">02-14 23:01</span>
+                              </div>
+                              <div class="praises-total" total="0" style="display: none;"></div>
+							  <!--留言本人回复-->
+                              <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="other" style="width: 600px">
+									    <!--留言本人头像-->
+                                        <img class="myhead" src="images/洛.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--留言本人回复我的内容及时间-->
+                                             <p class="comment-text"><span class="user">时间有泪：</span>很高兴认识你。</p>
+                                             <p class="comment-time"  style="width: 560px">
+                                                2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">回复</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--我的回复-->
+							  <div class="comment-list" style="width: 700px">
+                                   <div class="comment-box clearfix" user="self" style="width: 600px">
+									    <!--我的头像-->
+                                        <img class="myhead" src="images/logo.jpg" alt=""/>
+                                        <div class="comment-content">
+											 <!--我回复本条留言的内容及时间-->
+                                             <p class="comment-text"><span class="user">我：</span>你好。</p>
+                                             <p class="comment-time" style="width: 560px">
+                                             2014-02-19 14:36
+                                             <a href="javascript:;" class="comment-operate">删除</a>
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+							  <!--下方留言回复框-->
+                              <div class="text-box">
+                                   <textarea class="comment" autocomplete="off" style="height: 30px">回复…</textarea>
+                                   <button class="btn " style="background: orange;line-height: 7px;color: rgba(0,0,0,1.00);">回 复</button>
+                                   <span class="word"><span class="length">0</span>/140</span>
+                              </div>
+                         </div>
+                    </div>
+                </div>
+				<!--页码-->
+				<div id="pagination" class="pagination" style="flex: auto; height:9%;margin-left: 14%;margin-left: 10px;margin-top: 30px"></div>
+		    </div>
+		</div>
+	</div>
+<!--验证码-->
+<script type="text/javascript">
+    $(function(){
+        var show_num = [];
+        draw(show_num);
+
+        $("#canvas").on('click',function(){
+            draw(show_num);
+        })
+        $(".contact100-form-btn").on('click',function(){
+            var val = $(".input-val").val().toLowerCase();
+            var num = show_num.join("");
+            if(val==''){
+                alert('请输入验证码！');
+            }else if(val == num){
+                alert('发送成功！');
+                $(".input-val").val('');
+                draw(show_num);
+
+            }else{
+                alert('验证码错误！请重新输入！');
+                $(".input-val").val('');
+                draw(show_num);
+            }
+        })
+    })
+
+    function draw(show_num) {
+        var canvas_width=$('#canvas').width();
+        var canvas_height=$('#canvas').height();
+        var canvas = document.getElementById("canvas");//获取到canvas的对象，演员
+        var context = canvas.getContext("2d");//获取到canvas画图的环境，演员表演的舞台
+        canvas.width = canvas_width;
+        canvas.height = canvas_height;
+        var sCode = "A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+        var aCode = sCode.split(",");
+        var aLength = aCode.length;//获取到数组的长度
+        
+        for (var i = 0; i <= 3; i++) {
+            var j = Math.floor(Math.random() * aLength);//获取到随机的索引值
+            var deg = Math.random() * 30 * Math.PI / 180;//产生0~30之间的随机弧度
+            var txt = aCode[j];//得到随机的一个内容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20;//文字在canvas上的x坐标
+            var y = 20 + Math.random() * 8;//文字在canvas上的y坐标
+            context.font = "bold 23px 微软雅黑";
+
+            context.translate(x, y);
+            context.rotate(deg);
+
+            context.fillStyle = randomColor();
+            context.fillText(txt, 0, 0);
+
+            context.rotate(-deg);
+            context.translate(-x, -y);
+        }
+        for (var i = 0; i <= 5; i++) { //验证码上显示线条
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+        }
+        for (var i = 0; i <= 30; i++) { //验证码上显示小点
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+        }
+    }
+
+    function randomColor() {//得到随机的颜色值
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+</script>
+<script>
+	$(".js-select2").each(function(){
+		$(this).select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $(this).next('.dropDownSelect2')
+		});
+	})
+	$(".js-select2").each(function(){
+		$(this).on('select2:open', function (e){
+			$(this).parent().next().addClass('eff-focus-selection');
+		});
+	});
+	$(".js-select2").each(function(){
+		$(this).on('select2:close', function (e){
+			$(this).parent().next().removeClass('eff-focus-selection');
+		});
+	});
+</script>
+<script src="js/send.js"></script>
+<script type="text/javascript" src="js/test-clear.js" opacity= 0.6></script>
+</body>
+</html>

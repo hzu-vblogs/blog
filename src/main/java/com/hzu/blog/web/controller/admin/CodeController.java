@@ -4,6 +4,8 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.hzu.blog.common.dto.BaseResult;
 import com.hzu.blog.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +20,12 @@ import java.io.ByteArrayOutputStream;
 
 @RestController
 @Validated
+@PropertySource("classpath:application.yml")
 public class CodeController {
     @Autowired
     DefaultKaptcha defaultKaptcha;
+    @Value("${server.servlet.session.timeout}")
+    private String sessionTime;
 
     @Autowired
     private MailService mailService;
@@ -57,8 +62,10 @@ public class CodeController {
     @RequestMapping(value = "/register/code")
     public BaseResult registerCode(@NotNull String email, HttpSession httpSession){
         String createText = defaultKaptcha.createText();
+        String time = sessionTime.substring(0,sessionTime.length()-1);
+        String text = "您的验证码是： 【"+createText+"】"+time+"分钟";
         try {
-            mailService.sendSimpleTextMailActual("vblogs系统注册验证码",createText,new String[]{email},null,null,null);
+            mailService.sendSimpleTextMailActual("vblogs系统注册验证码",text,new String[]{email},null,null,null);
         }catch (Exception e){
             return BaseResult.fail("邮箱错误");
         }

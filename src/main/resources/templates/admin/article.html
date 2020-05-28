@@ -39,7 +39,7 @@
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">请输入文章描述</label>
+        <label class="layui-form-label required">请输入文章描述</label>
         <div class="layui-input-block" >
             <textarea placeholder="请输入内容" style="width: 88vw" lay-verify="required" lay-reqtext="文章描述不能为空"  class="layui-textarea" id="description" cols="80"  name="description" th:text="${article?.getDescription()}"></textarea>
         </div>

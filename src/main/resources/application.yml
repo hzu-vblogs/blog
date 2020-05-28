@@ -2,6 +2,8 @@ server:
   port: 8088
   servlet:
     context-path: /blogs
+    session:
+      timeout: 30m
 
 spring:
   redis:
@@ -43,9 +45,9 @@ spring:
     host: smtp.qq.com # 邮箱服务商的protocol服务器主机
     port: 465
     protocol: smtp #smtp
-    username:  1303182826@qq.com #指定邮箱服务商的邮箱账号
+    username:   #指定邮箱服务商的邮箱账号
     nickname: 'vblogs系统' #后台系统
-    password:  fvornskfjfkebabj #邮箱账号密码或者三方登录授权码
+    password:   #邮箱账号密码或者三方登录授权码
     default-encoding:  UTF-8
     properties:
       mail:

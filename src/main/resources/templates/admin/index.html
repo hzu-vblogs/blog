@@ -56,6 +56,9 @@
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a th:href="'/blogs/user/index/'+${session.user.getId()}"  >主页</a>
+                </li>
                 <li class="layui-nav-item layuimini-setting">
                     <a href="javascript:;" th:text="${session.user?.getUsername()!=null?session.user?.getUsername():'admin'}" ></a>
                     <dl class="layui-nav-child">

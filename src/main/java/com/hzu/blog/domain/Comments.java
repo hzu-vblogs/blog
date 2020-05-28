@@ -3,10 +3,7 @@ package com.hzu.blog.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -68,7 +65,11 @@ public class Comments implements Serializable {
     private String responseName;
 
     //为了方便传参无实际作用
+    @Transient
     private Long userId;
+
+    @Transient
+    private String title;
 
     private static final long serialVersionUID = 1L;
 }

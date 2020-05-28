@@ -127,6 +127,7 @@ public class IndexController {
         User registerUser = new User();
         registerUser.setEmail(email);
         registerUser.setPassword(password);
+        registerUser.setLockStatus(false);
         userService.insert(registerUser);
 
         return BaseResult.success("注册成功");

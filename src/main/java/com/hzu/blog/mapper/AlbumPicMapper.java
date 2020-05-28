@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AlbumPicMapper extends MyMapper<AlbumPic> {
     List<AlbumPic> selectByAlbumId(Long albumId);
+    String selectFirstPicByAlbumId(Long albumId);
 }

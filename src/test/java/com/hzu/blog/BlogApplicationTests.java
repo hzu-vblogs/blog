@@ -7,13 +7,17 @@ import com.hzu.blog.service.MailService;
 import com.hzu.blog.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
+@PropertySource("classpath:application.yml")
 class BlogApplicationTests {
 
     @Autowired
@@ -38,10 +42,19 @@ class BlogApplicationTests {
     private VisitLogMapper visitLogMapper;
     @Autowired
     private AlbumMapper albumMapper;
+
+    @Value("${server.servlet.session.timeout}")
+    private String sessionTime;
     @Test
     void contextLoads() {
-        Category category = categoryMapper.selectByPrimaryKey(1L);
-        System.out.println(category);
+        String a ;
+        StringBuilder stringBuilder;
+        StringBuffer stringBuffer;
+        Comments comments = new Comments();
+        comments.setUserId(1L);
+        List<Comments> page = commentsMapper.page(comments);
+        System.out.println(page);
+
     }
 
 

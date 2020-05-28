@@ -8,5 +8,5 @@ import java.util.List;
 public interface AlbumPicService extends BaseService<AlbumPic> {
 
 
-    List<AlbumPic> selectByUserId(Long albumId);
+    List<AlbumPic> selectByAlbumId(Long albumId);
 }

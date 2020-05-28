@@ -9,4 +9,6 @@ public interface LeaveMessageMapper extends MyMapper<LeaveMessage> {
     List<LeaveMessage> selectByParentId(Long parentId);
 
     void deleteMulti(List<Long> ids);
+
+    List<Integer> selectCountByUserId(Long userId);
 }

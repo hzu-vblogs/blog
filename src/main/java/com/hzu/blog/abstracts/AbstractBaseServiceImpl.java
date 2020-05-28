@@ -76,7 +76,7 @@ public abstract class AbstractBaseServiceImpl <T,D extends MyMapper<T>> implemen
             paginationDto.setPage(1);
         if (paginationDto.getLimit() == null)
             paginationDto.setLimit(10);
-        PageHelper.startPage(1,10);
+        PageHelper.startPage(paginationDto.getPage(),paginationDto.getLimit());
         return new PageInfo<>(dao.page(entity));
     }
 

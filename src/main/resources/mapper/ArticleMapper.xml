@@ -50,6 +50,20 @@
     </collection>
   </resultMap>
 
+
+  <resultMap id="WithCategoryResultMap" type="com.hzu.blog.domain.Article">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_day" jdbcType="TIMESTAMP" property="createDay" />
+    <result column="good_nums" jdbcType="BIGINT" property="goodNums" />
+    <result column="read_nums" jdbcType="BIGINT" property="readNums" />
+    <collection ofType="com.hzu.blog.domain.Category" property="category">
+      <id column="cId" jdbcType="BIGINT" property="id" />
+      <result column="cName" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
   <select id="page" resultMap="BaseResultMap">
     select * from article
     <where>
@@ -108,5 +122,42 @@
     left join comments co on  a.id = co.article_id
     where a.id = #{articleId}
   </select>
+
+
+
+
+    <select id="selectByUserIdAndRecommend" resultMap="BaseResultMap">
+      select
+      id, title, description
+      from article
+      where user_id = #{userId} and is_recommend = 1
+      limit 5
+    </select>
+
+  <select id="selectByUserIdWithCateGory" resultMap="WithCategoryResultMap">
+    select
+    a.id,
+    a.title,
+    a.description,
+    a.create_day,
+    a.good_nums,
+    a.read_nums,
+    ca.name as cName
+    from article a
+    left join category ca on  a.category_id = ca.id
+    <where>
+      <if test="userId != null">
+        AND a.user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="title != null and title != ''">
+        AND a.title like CONCAT ('%',#{title},'%')
+      </if>
+      <if test="categoryId != null ">
+        AND a.category_id = #{categoryId,jdbcType=BIGINT}
+      </if>
+      AND a.is_recommend = 1
+    </where>
+</select>
+
 
 </mapper>

@@ -19,7 +19,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisCacheConfig {
 
     @Bean
-    @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(factory);
@@ -40,4 +39,20 @@ public class RedisCacheConfig {
         template.afterPropertiesSet();
         return template;
     }
+
+//    @Bean
+//    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+//        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(redisConnectionFactory);
+//        RedisSerializer redisSerializer = new StringRedisSerializer();
+//        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+//        //key使用StringRedisSerializer序列化
+//        redisTemplate.setKeySerializer(redisSerializer);
+//        //value使用jackson2JsonRedisSerializer序列化
+//        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+////        redisTemplate.setHashKeySerializer(redisSerializer);
+////        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+//        return redisTemplate;
+//    }
+
 }

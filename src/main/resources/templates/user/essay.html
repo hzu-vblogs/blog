@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<head>
+<meta charset="utf-8">
+<title>首页-个人博客vblog</title>
+<meta name="keywords" content="blog" />
+<meta name="description" content="blog" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/myPagination.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/bootstrap.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/main.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/app/animate.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/base.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+	<link rel="stylesheet" href="/blogs/static/asserts/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/app/main.css">
+
+	<script src="/blogs/static/asserts/js/bootstrap.bundle.min.js"></script>
+	<script src="/blogs/static/asserts/js/jquery.min.js"></script>
+	<script src="/blogs/static/asserts/js/myPagination.js"></script>
+</head>
+<body>
+<div style="height: 100%;width: 100%">
+
+	<div th:replace="~{user/header :: topbar}"></div>
+
+
+	<div style="margin-top: 70px;width: 100%;height: 1800px;background: rgba(198,198,198,1.00)">
+        <div style="display: table;width: 60%;margin: 0 auto;">
+			<div class="tab_box whitebg">
+				<div class="tab_buttons" style="flex-direction: column; height: 1%">
+					<h7 class="panel-title">文章列表</h7>
+				</div>
+				<div class="row mt-2 " style="flex: auto; height: 90%">
+					<ul class="list-unstyled art-list">
+
+						<div th:if="${articles.size() == 0}">
+							<div class="post__head" style="height: 20vh">
+								暂无文章
+							</div>
+
+						</div>
+						<div class="post" th:each="article:${articles}">
+							<div class="post__head">
+								<img class="post__head-img" th:src="${session.myUser.getIcon()!=null?session.myUser.getIcon():'/blogs/static/asserts/images/logo.jpg'}"alt="">
+								<div class="post__head-title">
+									<h5 th:text="${session.myUser.getUsername()!=null?session.myUser.getUsername():'时间有泪'}" >时间有泪</h5>
+									<p th:text="${#dates.format(article.createDay,'yyyy-MM-dd')}">一天前</p>
+								</div>
+								<!--							              <div class="post__dropdown">-->
+								<!--												<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+								<!--													<i class="icon ion-md-more"></i>-->
+								<!--												</a>-->
+
+								<!--												<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">-->
+								<!--													<li><a href="#">编辑</a></li>-->
+								<!--													<li><a href="#">删除</a></li>-->
+								<!--												</ul>-->
+								<!--										  </div>-->
+							</div>
+							<h2 class="post__title" th:text="${article.title}">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+
+							<div class="post__description">
+								<p th:text="${article.description}" style="width: 55vw">今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+								<a th:href="@{'/articles/detail/'+${article.id}}">详情</a>
+							</div>
+
+							<div class="post__tags">
+								<a href="#" th:text="${article.category.name}">体育</a>
+							</div>
+
+							<div class="post__stats">
+								<div>
+									<i class="fa fa-thumbs-o-up"></i><span th:text="${article.goodNums}">20</span>
+									<div style="width: 30px"></div>
+									<!--										      <i class="fa fa-comment-o"></i><span>20</span>-->
+								</div>
+								<div class="post__views">
+									<i class="fa fa-eye"></i> <span th:text="${article.readNums}">214</span>
+								</div>
+							</div>
+
+							<div class="collapse post__collapse" id="collapse1">
+								<form action="#" class="post__form">
+									<input type="text" placeholder="Type your comment...">
+									<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+								</form>
+							</div>
+						</div>
+					</ul>
+				</div>
+				<div id="pagination2" class="pagination" style="flex: auto; height:9%;margin-left: 14%">
+
+
+				</div>
+			</div>
+    <!--bloglist end--> 
+        </div>
+    </div>
+</div>
+<!--照片墙-->   
+
+<!--页码1-->
+
+<!--页码2-->
+<script>
+	window.onload = function () {
+		new myPagination({
+			id: 'pagination2',
+			curPage:[[${page.pageNum}]], //初始页码
+			pageTotal: [[${page.pages}]], //总页数
+			pageAmount: [[${page.size}]],  //每页多少条
+			dataTotal: [[${page.total}]], //总共多少条数据
+			pageSize: 5, //可选,分页个数
+			showPageTotalFlag:true, //是否显示数据统计
+			showSkipInputFlag:true, //是否支持跳转
+			getPage: function (page) {
+
+				window.location.href = '/blogs/articles/search/[[${session.myUser.id}]]?page='+page+'&title=[[${title}]]';
+				//获取当前页数
+				console.log(page);
+			}
+		})
+
+	}
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@ public class AlbumPicServiceImpl extends AbstractBaseServiceImpl<AlbumPic,AlbumP
     private AlbumPicMapper albumPicMapper;
 
     @Override
-    public List<AlbumPic> selectByUserId(Long albumId) {
+    public List<AlbumPic> selectByAlbumId(Long albumId) {
         return albumPicMapper.selectByAlbumId(albumId);
     }
 

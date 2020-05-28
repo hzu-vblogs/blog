@@ -33,7 +33,8 @@
     co.is_root,
     co.is_reply,
     co.create_day,
-    co.parent_id
+    co.parent_id,
+    ar.title as title
   </sql>
 
   <select id="selectByArticleId" resultMap="BaseResultMap">

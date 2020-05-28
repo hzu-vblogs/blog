@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8">
+<title>首页-个人博客vblog</title>
+<meta name="keywords" content="blog" />
+<meta name="description" content="blog" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/blogs/static/asserts/css/myPagination.css">
+<link rel="stylesheet" href="/blogs/static/asserts/css/bootstrap.css">
+<link rel="stylesheet" href="/blogs/static/asserts/css/main.css">
+<link rel="stylesheet" href="/blogs/static/asserts/app/animate.css">
+<link rel="stylesheet" href="/blogs/static/asserts/css/base.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+<!--    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/css/public.css" media="all">-->
+<link rel="stylesheet" href="/blogs/static/asserts/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/blogs/static/asserts/app/main.css">
+<link rel="stylesheet" href="/blogs/static/asserts/css/music.css">
+<script src="/blogs/static/asserts/js/bootstrap.bundle.min.js"></script>
+<script src="/blogs/static/asserts/js/jquery.min.js"></script>
+<script src="/blogs/static/asserts/js/jquery.jplayer.min.js"></script>
+<script src="/blogs/static/asserts/js/jplayer.playlist.min.js"></script>
+<script src="/blogs/static/asserts/js/myPagination.js"></script>
+<script src="/blogs/static/asserts/js/vue.js"></script>
+<script src="/blogs/static/asserts/js/bootstrap.bundle.min.js"></script>
+<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.clearfix:after {
+				content: " ";
+				display: block;
+				clear: both;
+			}
+			
+			.box {
+				position: relative;
+				width: 900px;
+				height: 200px;
+				margin: 50px auto;
+			}
+			
+			.main {
+				width: 850px;
+				height: 200px;
+				position: absolute;
+				top: 0px;
+				left: 45%;
+				margin-left: -350px;
+				overflow: hidden;
+			}
+			
+			.item {
+				list-style: none;
+				width: 450px;
+				height: 150px;
+				position: absolute;
+				left: 40px;
+				top: 27px;
+				transition: all 0.3s ease;
+			}
+			
+			.p0 {
+				transform: translate3d(-280px, 0, 0) scale(1);
+				opacity: 0.1;
+				z-index: 1;
+			}
+			
+			.p1 {
+				transform: translate3d(0px, 0, 0) scale(1);
+				opacity: 0.8;
+				z-index: 2;
+			}
+			
+			.p2 {
+				transform: translate3d(280px, 0, 0) scale(1);
+				opacity: 0.8;
+				z-index: 3;
+			}
+			
+			.p3 {
+				transform: translate3d(140px, 0, 0) scale(1.5);
+				opacity: 1;
+				z-index: 4;
+			}
+			
+			.p4 {
+				transform: translate3d(560px, 0, 0) scale(1);
+				opacity: 0.1;
+				z-index: 3;
+			}
+			
+			.newItem {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+			}
+			
+			.changeItem {
+				position: absolute;
+				left: 50%;
+				top: 0px;
+				margin-left: -202px;
+				transform: scale(1.4);
+			}
+			
+			.item img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.btnMain {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			
+			.left {
+				position: absolute;
+				left: 15px;
+				top: 50%;
+				margin-top: -15px;
+				z-index: 10;
+			}
+			
+			.right {
+				position: absolute;
+				right: 15px;
+				top: 50%;
+				margin-top: -15px;
+				z-index: 10;
+			}
+			
+	        /*左右轮播键  */
+			.left img,
+			.right img {
+				width: 50px;
+				height: 50px;
+			}
+			
+	        /*按键     */
+			.pressMain {                
+				position: absolute;
+				left: 50%;
+				bottom: 10px;
+				width: 134px;
+				height: 24px;
+				margin-left: -67px;
+				z-index: 20;
+			}
+			
+			.pressMain span {
+				display: inline-block;
+				margin: 2px 3px;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				color: #fff;
+				background: pink;
+				text-align: center;
+				line-height: 20px;
+			}
+			
+			.pressMain .active {
+				background: brown;
+			}
+	        .myself{
+				margin-bottom: 20px;
+	       }
+		</style>
+</head>
+<body>
+<div style="height: 100%;width: 100%">
+
+	<div th:replace="~{user/header :: topbar}"></div>
+
+    <div style="margin-top: 70px;width: 100%;height: 2400px;background: rgba(198,198,198,1.00)" id="myContainer">
+        <div style="display: table;width: 60%; margin-left: 10%; float: left">
+               <div id="app" style="width: 100%;height: 230px;margin-top: 10px">
+			   <div class="box">
+				<!--<button @click="imgMove">点击</button>-->
+				<div class="main clearfix" @mouseover="btnOpen" @mouseout="btnHide">
+					<div class="minMain">
+						<div class="item" v-for="(item,index) in list" :key="index">
+							<img :src="item.imgUrl" />
+						</div>
+					</div>
+					<div class="btnMain" v-show="btnShow">
+						<div class="left" @click="leftClick">
+							<img src="/blogs/static/asserts/images/left.png" />
+						</div>
+						<div class="right" @click="rightClick">
+							<img src="/blogs/static/asserts/images/right.png" />
+						</div>
+					</div>
+					<div class="pressMain">
+						<span v-for="(item,index) in pressList" :class="{active:item.isShow}">{{item.name}}</span>
+					</div>
+				</div>
+			   </div>
+		       </div>
+               <div class="tab_box whitebg">
+                  <div class="tab_buttons" style="height: 10%">
+                       <h7>精选博文</h7>
+                  </div>
+                  <div class="newstab" style="height: 230px">
+                      <div class="newsitem" style="height: 230px">
+                         <div class="newspic" style="width: 35%;float: left">
+                             <ul>
+                                 <li><a href="/"><img src="/blogs/static/asserts/images/2.jpg"><span>个人博客，我的小世界！</span></a></li>
+                                 <li><a href="/"><img src="/blogs/static/asserts/images/4.jpg"><span>个人博客，记录我的美好生活</span></a></li>
+                             </ul>
+                         </div>
+		                 <div style="width: 65%;float: left;height: 230px" >
+		                      <div>
+                                  <ul class="newslist" style="width: 100%" id="recommends" >
+									  <li th:if="${recommendArticles!=null}" th:each="ar:${recommendArticles}"><i></i><a th:href="@{'/articles/detail/'+${ar.id}}" th:text="${ar.title}"></a>
+										  <p th:text="${ar.description}">这是我的第一条博客内容</p>
+									  </li>
+                                      <li th:if="${recommendArticles.size() == 0}"><i></i><a href="#">暂无</a>
+                                          <p>博主未设置，暂无推荐博客</p>
+                                      </li>
+
+                                  </ul>
+		                      </div>
+		                 </div>
+                      </div>
+                  </div>
+				  <div style="height: 30px"><div id="pagination" class="pagination" style="flex: auto;margin-left: 34%"></div></div>
+               </div>
+               <div class="tab_box whitebg">
+							<div class="tab_buttons" style="flex-direction: column; height: 1%">
+								<h7 class="panel-title">文章列表</h7>
+							</div>
+                            <div class="row mt-2 " style="flex: auto; height: 90%">
+                               <ul class="list-unstyled art-list">
+
+								   <div th:if="${articles.size() == 0}">
+									   <div class="post__head" style="height: 20vh">
+										   暂无文章
+									   </div>
+
+								   </div>
+								  <div class="post" th:each="article:${articles}">
+						             <div class="post__head">
+								          <img class="post__head-img" th:src="${session.myUser.getIcon()!=null?session.myUser.getIcon():'/blogs/static/asserts/images/logo.jpg'}"alt="">
+							              <div class="post__head-title">
+								               <h5 th:text="${session.myUser.getUsername()!=null?session.myUser.getUsername():'时间有泪'}" >时间有泪</h5>
+								               <p th:text="${#dates.format(article.createDay,'yyyy-MM-dd')}">一天前</p>
+							              </div>
+<!--							              <div class="post__dropdown">-->
+<!--												<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--													<i class="icon ion-md-more"></i>-->
+<!--												</a>-->
+
+<!--												<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--													<li><a href="#">编辑</a></li>-->
+<!--													<li><a href="#">删除</a></li>-->
+<!--												</ul>-->
+<!--										  </div>-->
+						             </div>
+                                     <h2 class="post__title" th:text="${article.title}">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+
+						             <div class="post__description">
+							              <p th:text="${article.description}" style="width: 55vw">今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a th:href="@{'/articles/detail/'+${article.id}}">详情</a>
+						             </div>
+
+						             <div class="post__tags">
+							              <a href="#" th:text="${article.category.name}">体育</a>
+						             </div>
+
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span th:text="${article.goodNums}">20</span>
+											  <div style="width: 30px"></div>
+<!--										      <i class="fa fa-comment-o"></i><span>20</span>-->
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span th:text="${article.readNums}">214</span>
+							              </div>
+						             </div>
+
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+												<input type="text" placeholder="Type your comment...">
+												<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+										  </form>
+						             </div>
+					              </div>
+                               </ul>
+                            </div>
+							<div id="pagination2" class="pagination" style="flex: auto; height:9%;margin-left: 14%">
+
+
+							</div>
+			   </div>
+    <!--bloglist end--> 
+        </div>
+        <div class="col-md-4 " style="width: 23%;margin-right: 2%; float: left">
+            <div class="container">
+                
+				<div class="row bgc mt-5 right-author">
+                    <div class="card" data-state="#about">
+                         <div class="card-header">
+                            <div class="card-cover" style="background-image: url('/blogs/static/asserts/images/4.jpg')"></div>
+                            <img class="card-avatar" th:src="${session.myUser.getIcon()!=null?session.myUser.getIcon():'/blogs/static/asserts/images/logo.jpg'}"/>
+                            <h1 class="card-fullname" th:text="${session.myUser.getUsername()!=null?session.myUser.getUsername():'时间有泪'}">时间有泪</h1>
+                            <p th:text="${session.myUser.getEmail()}" style="color: #9d1e15">1610875240@qq.com</p>
+                          </div>
+                         <div class="card-main">
+                            <div class="card-section is-active" id="about">
+                                 <div class="card-content">
+                                      <div class="card-subtitle" style="height: 200px;font-size: 20px">个人介绍
+                                      <p class="card-desc" th:text="${session.myUser.getIntroduction()!=null?session.myUser.getIntroduction():'博主太懒啦，尚未完成介绍'}">是会更好说的都是大
+                                      </p>
+									  </div>
+                                 </div>
+                            </div>
+                          
+                            <div class="auth-info" style="margin-bottom: 0;font-size: 20px">
+                            <ul>
+                                <li><strong th:text="${albumNum}">2</strong><span style="font-size: 20px">相册</span></li>
+                                <li><strong>[1]</strong><span style="font-size: 20px">音乐</span></li>
+                                <li><strong th:text="${leaveNum}">2</strong><span style="font-size: 20px">留言</span></li>
+                            </ul>
+                        </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="row bgc mt-4" style="height: 320px">
+                    <div class="music-player" style="margin-top: 0;width: 400px;height: 320px">
+<!--  <div style="background-image: url(http://i.imgur.com/yqB0erk.jpg);" class="album"></div>-->
+
+                        <div class="info" style="background: rgba(46,28,28,1.00)">
+                             <div class="left">
+                                  <a href="javascript:;" class="icon-shuffle"></a>
+                                  <a href="javascript:;" class="icon-heart"></a>
+                             </div>
+                             <div class="center">
+                                  <div class="jp-playlist">
+                                    <ul>
+                                    <li></li>
+                                    </ul>
+                                    </div>
+                             </div>
+                             <div class="right">
+                                  <a href="javascript:;" class="icon-repeat"></a>
+                                  <a href="javascript:;" class="icon-share"></a>
+                             </div>
+                             <div class="progress jp-seek-bar" style="background: rgba(195,195,195,1.00)">
+                                  <span class="jp-play-bar" style="width: 0%"></span>
+                             </div>
+                        </div>
+
+                        <div class="controls">
+                             <div class="current jp-current-time">00:00</div>
+                             <div class="play-controls">
+      <a href="javascript:;" class="icon-previous jp-previous" title="previous"></a>
+      <a href="javascript:;" class="icon-play jp-play" title="play"></a>
+      <a href="javascript:;" class="icon-pause jp-pause" title="pause"></a>
+      <a href="javascript:;" class="icon-next jp-next" title="next"></a>
+    </div>
+                             <div class="volume-level jp-volume-bar">
+      <span class="jp-volume-bar-value" style="width: 0%"></span>
+      <a href="javascript:;" class="icon-volume-up jp-volume-max" title="max volume"></a>
+      <a href="javascript:;" class="icon-volume-down jp-mute" title="mute"></a>
+    </div>
+                        </div>
+
+                        <div id="jquery_jplayer" class="jp-jplayer" style="height: 30px;margin-bottom: 0;"></div>
+
+                    </div>
+                </div>
+               
+                <div class="row bgc mt-5" style="margin-top: 0">
+                    <div class="new new-right">
+                        <span><i class="fa fa-tag"></i>分类</span>
+                        <small>New Article</small>
+                    </div>
+                    <div class="col-md-12 ">
+                        <ul class="label">
+                            <li  th:each="ca:${categorys}">
+                                <a th:href="@{'/articles/search?userId='+${session.myUser.getId()} +'&categoryId='+${ca.getId()}}" th:text="${ca.name}">生活&nbsp;&nbsp;(1)</a>
+                            </li>
+
+                            <li th:if="${categorys.size()}==0">
+                                <a href="" title="暂无分类">暂无分类</a>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+</div>
+    </div>
+</div>
+<!--照片墙-->   
+<script>
+		var app = new Vue({
+			el: "#app",
+			data() {
+				return {
+					list: [
+						{ imgUrl: '/blogs/static/asserts/images/张学友1.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友2.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友3.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友4.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友5.jpg' }
+					],
+					pressList: [{ name: '1', isShow: false }, { name: '2', isShow: false }, { name: '3', isShow: false }, { name: '4', isShow: false }, { name: '5', isShow: false }],
+					numList: ['p0', 'p1', 'p2', 'p3', 'p4'],
+					imgIndex: 0,
+					imgTimer: null,
+					btnShow: false
+				}
+			},
+			mounted: function() {
+				var Item = document.getElementsByClassName('item');
+				for(var i = 0; i < Item.length; i++) {
+					Item[i].className = 'item ' + this.numList[i]
+				}
+				this.imgMove()
+				this.pressList[0].isShow = true
+			},
+			methods: {
+				imgMove() {
+					var Item = document.getElementsByClassName('item');
+					this.imgTimer = setInterval(() => {
+						this.numList.push(this.numList[0]);
+						this.numList.shift()
+						this.imgIndex++;
+						for(var i = 0; i < Item.length; i++) {
+							Item[i].className = 'item ' + this.numList[i];
+						}
+						for(var i in this.pressList) {
+							this.pressList[i].isShow = false
+						}
+						if(this.imgIndex > 4) {
+							this.imgIndex = 0
+							this.pressList[this.imgIndex].isShow = true;
+						} else {
+							this.pressList[this.imgIndex].isShow = true;
+						}
+					}, 4000)
+				},
+				btnOpen() {
+					this.btnShow = true;
+					clearInterval(this.imgTimer)
+				},
+				btnHide() {
+					this.btnShow = false;
+					this.imgMove()
+				},
+				leftClick() {
+					var Item = document.getElementsByClassName('item');
+					this.numList.unshift(this.numList[4]);
+					this.numList.pop()
+					for(var i = 0; i < Item.length; i++) {
+						Item[i].className = 'item ' + this.numList[i];
+					}
+					for(var i in this.pressList) {
+						this.pressList[i].isShow = false
+					}
+					this.imgIndex--
+						if(this.imgIndex < 0) {
+							this.imgIndex = 4
+							this.pressList[this.imgIndex].isShow = true;
+						} else {
+							this.pressList[this.imgIndex].isShow = true;
+						}
+				},
+				rightClick() {
+					var Item = document.getElementsByClassName('item');
+					this.numList.push(this.numList[0]);
+					this.numList.shift()
+					for(var i = 0; i < Item.length; i++) {
+						Item[i].className = 'item ' + this.numList[i];
+					}
+					for(var i in this.pressList) {
+						this.pressList[i].isShow = false
+					}
+					this.imgIndex++
+					if(this.imgIndex > 4) {
+						this.imgIndex = 0
+						this.pressList[this.imgIndex].isShow = true;
+					} else {
+						this.pressList[this.imgIndex].isShow = true;
+					}
+				}
+			}
+		})
+	</script>
+
+<!--&lt;!&ndash;页码1&ndash;&gt;-->
+<!--<script>-->
+
+<!--window.onload = function () {-->
+
+<!--    new myPagination({-->
+<!--        id: 'pagination',-->
+<!--        curPage:1, //初始页码-->
+<!--        pageTotal: 6, //总页数-->
+<!--		pageAmount: 5,  //每页多少条-->
+<!--        dataTotal: 30, //总共多少条数据-->
+<!--		pageSize: 5, //可选,分页个数-->
+<!--        showPageTotalFlag:true, //是否显示数据统计-->
+<!--        showSkipInputFlag:true, //是否支持跳转-->
+<!--        getPage: function (page) {-->
+<!--            //获取当前页数-->
+<!--            console.log(page);-->
+<!--        }-->
+<!--    })-->
+<!--	-->
+<!--}-->
+<!--</script>-->
+
+<!--页码2-->
+<script>
+window.onload = function () {
+    new myPagination({
+        id: 'pagination2',
+        curPage:[[${page.pageNum}]], //初始页码
+        pageTotal: [[${page.pages}]], //总页数
+		pageAmount: [[${page.size}]],  //每页多少条
+        dataTotal: [[${page.total}]], //总共多少条数据
+		pageSize: 5, //可选,分页个数
+        showPageTotalFlag:true, //是否显示数据统计
+        showSkipInputFlag:true, //是否支持跳转
+        getPage: function (page) {
+
+        	window.location.href = '/blogs/user/index/[[${session.myUser.id}]]?page='+page;
+            //获取当前页数
+            console.log(page);
+        }
+    })
+	
+}
+</script>
+
+<script>
+	$(document).ready(function(){
+		var articleSize = [[${articles.size()}]];
+
+		var containerHeight=articleSize*320+750;
+		if (containerHeight === 0)
+			containerHeight = 1100;
+		$('#myContainer').height(containerHeight);
+		console.log(containerHeight+'  ...');
+
+		var playlist = [{
+			title:'[[${music.name}]]',
+			artist:'[[${music.singer}]]',
+			mp3:'[[${music.url}]]',
+			//oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg",
+			poster: "/blogs/static/asserts/images/backpic.jpg"
+		}
+		];
+
+		var cssSelector = {
+			jPlayer: "#jquery_jplayer",
+			cssSelectorAncestor: ".music-player"
+		};
+
+		var options = {
+			swfPath: "Jplayer.swf",
+			supplied: "ogv, m4v, oga, mp3"
+		};
+
+		var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+
+	});
+</script>
+<script>
+    function toSearch() {
+        console.log(123);
+    }
+</script>
+
+</body>
+</html>

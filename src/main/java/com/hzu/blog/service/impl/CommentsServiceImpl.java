@@ -10,7 +10,6 @@ import com.hzu.blog.service.MailService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +22,6 @@ public class CommentsServiceImpl extends AbstractBaseServiceImpl<Comments, Comme
     @Autowired
     private MailService mailService;
     @Override
-    @Transactional
     public void comments(CommentsDto commentsDto) {
         Comments comments = new Comments();
         BeanUtils.copyProperties(commentsDto,comments);
@@ -33,12 +31,17 @@ public class CommentsServiceImpl extends AbstractBaseServiceImpl<Comments, Comme
             //找到父级评论设置为已回复
             Comments parent = commentsMapper.selectByPrimaryKey(comments.getParentId());
             parent.setIsReply(true);
+            String text = commentsDto.getContent()+"---回复人邮箱【"+commentsDto.getEmail()+"】";
+            mailService.sendSimpleTextMailActual("评论回复",text,new String[]{parent.getEmail()},null,null,null);
+
             commentsMapper.updateByPrimaryKeySelective(parent);
+
             comments.setIsRoot(false);
+            comments.setResponseName(parent.getName());
         }
         comments.setIsReply(false);
         comments.setCreateDay(new Date());
-        commentsMapper.insert(comments);
+        commentsMapper.insertSelective(comments);
     }
 
 
@@ -50,7 +53,6 @@ public class CommentsServiceImpl extends AbstractBaseServiceImpl<Comments, Comme
     }
 
     @Override
-    @Transactional
     public boolean reply(Long id, User user, String content) {
         Comments comments = dao.selectByPrimaryKey(id);
         comments.setIsReply(true);
@@ -68,7 +70,8 @@ public class CommentsServiceImpl extends AbstractBaseServiceImpl<Comments, Comme
         back.setGoodNums(0L);
         dao.insert(back);
         dao.updateByPrimaryKeySelective(comments);
-        mailService.sendSimpleTextMailActual("博主回复您的评论啦",content,new String[]{comments.getEmail()},null,null,null);
+        String text = content+"---博主邮箱【"+user.getEmail()+"】";
+        mailService.sendSimpleTextMailActual("博主回复您的评论啦",text,new String[]{comments.getEmail()},null,null,null);
 
         return true;
     }

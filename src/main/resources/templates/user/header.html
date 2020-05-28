@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="header" style="height: 70px" th:fragment="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-7 col-md-9 col-lg-8 col-xl-9">
+                <div class="header__content">
+                    <!-- header menu btn -->
+                    <button class="header__btn" type="button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <!-- end header menu btn -->
+
+                    <!-- header logo -->
+                    <a th:href="@{'/user/index/'+${session.myUser.getId()}}" class="header__logo">
+                        <img src="/blogs/static/asserts/images/logo2.png" alt="" height="55px" width="140px">
+                    </a>
+                    <!-- end header logo -->
+
+                    <!-- header nav -->
+                    <ul class="header__nav">
+                        <!-- dropdown -->
+                        <li class="header__nav-item" style="width: 70px">
+                            <a th:href="@{'/user/index/'+${session.myUser.getId()}}" class="header__nav-link" style="font-size: 20px">首页</a>
+                        </li>
+                        <!-- end dropdown -->
+
+                        <!-- dropdown -->
+                        <li class="header__nav-item" style="width: 70px">
+                            <a th:href="@{'/albums/'+${session.myUser.getId()}}" class="header__nav-link" style="font-size: 20px">相册</a>
+                        </li>
+
+                        <!-- end dropdown -->
+
+                        <!-- dropdown -->
+<!--                        <li class="header__nav-item" style="width: 70px">-->
+<!--                            <a href="index.html" class="header__nav-link" style="font-size: 20px">音乐</a>-->
+<!--                        </li>-->
+                        <!-- end dropdown -->
+
+                        <!-- dropdown -->
+                        <li class="header__nav-item" style="width: 70px">
+                            <a href="/blogs/admin/page/login" class="header__nav-link" style="font-size: 20px">管理</a>
+                        </li>
+                        <!-- end dropdown -->
+                    </ul>
+                    <!-- end header nav -->
+
+                    <!-- header search -->
+                    <form action="/blogs/articles/search" class="header__search">
+                        <input class="header__search-input" type="text" name="title" placeholder="标题搜索" />
+                        <input type="hidden" name="userId" th:value="${session.myUser.getId()}"/>
+                        <button  type="submit" class="layui-btn layui-btn-normal layui-btn-sm" >
+                            搜索
+                        </button>
+                    </form>
+                    <!-- end header search -->
+                </div>
+            </div>
+            <div class="col-5 col-md-3 col-lg-4 col-xl-3">
+                <div class="header__content header__content--end">
+<!--                    <a href="#" class="header__messages header__messages&#45;&#45;active">-->
+<!--                        <i class="fa fa-envelope"></i>-->
+<!--                    </a>-->
+
+<!--                    <div class="header__notifications">-->
+<!--                        <a href="#" class="header__messages header__messages&#45;&#45;active">-->
+<!--                            <i class="fa fa-bullhorn"></i>-->
+<!--                        </a>-->
+
+
+<!--                    </div>-->
+
+                    <div class="header__profile">
+                        <a class="dropdown-toggle header__profile-btn" href="#" role="button" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                            <img th:src="${session.myUser.getIcon()!=null?session.myUser.getIcon():'/blogs/static/asserts/images/logo.jpg'}" alt="" width="36px" height="36px">
+                            <span th:text="${session.myUser.getUsername()!=null?session.myUser.getUsername():'时间有泪'}">时间有泪</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

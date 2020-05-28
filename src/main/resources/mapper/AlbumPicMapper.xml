@@ -23,7 +23,13 @@
     where album_id = #{albumId}
   </select>
 
-
+  <select id="selectFirstPicByAlbumId" resultType="java.lang.String">
+    select
+    url
+    from album_pic
+    where album_id = #{albumId}
+    limit 1
+  </select>
 
   <select id="page" resultMap="BaseResultMap">
     select * from album_pic

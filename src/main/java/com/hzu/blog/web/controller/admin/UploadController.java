@@ -27,8 +27,8 @@ import java.util.UUID;
 @Validated
 @CrossOrigin("*")
 public class UploadController {
-    public static String UPLOAD_PIC_PATH = "D://temp-rainy/";
-//    public static String UPLOAD_PIC_PATH = "/usr/temp-rainy/";
+//    public static String UPLOAD_PIC_PATH = "D://temp-rainy/";
+    public static String UPLOAD_PIC_PATH = "/usr/temp-rainy/";
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;

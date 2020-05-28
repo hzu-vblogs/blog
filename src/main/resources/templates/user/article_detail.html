@@ -1,30 +1,37 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>博客详情</title>
+    <link rel="stylesheet" href="/blogs/static/asserts/css/bootstrap.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/app/main.css">
+
+    <link rel="stylesheet" href="/blogs/static/asserts/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="/blogs/static/asserts/css/typo.css">
     <link rel="stylesheet" href="/blogs/static/asserts/css/animate.css">
     <link rel="stylesheet" href="/blogs/static/asserts/plugins/prism/prism.css">
     <link rel="stylesheet" href="/blogs/static/asserts/plugins/tocbot/tocbot.css">
     <link rel="stylesheet" href="/blogs/static/asserts/css/me.css">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/blogs/static/asserts/layui-MINI/css/public.css" media="all">
 </head>
 <body>
 
-<!--导航-->
-<!--<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">-->
+<div th:replace="~{user/header :: topbar}"></div>
 
-</nav>
+
 
 <!--中间内容-->
-<div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn">
-    <div class="ui container">
+<div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn" >
+    <div class="ui container" style="margin-top: 60px">
         <div class="ui top attached segment">
             <div class="ui horizontal link list">
                 <div class="item">
-                    <img src="https://s1.ax1x.com/2020/05/02/Jj88UJ.jpg" alt=""
+                    <img src="https://s1.ax1x.com/2020/05/02/Jj88UJ.jpg" th:src="${session.myUser.getIcon()!=null?session.myUser.getIcon():'https://s1.ax1x.com/2020/05/02/Jj88UJ.jpg'}" alt=""
                          class="ui avatar image">
                     <div class="content"><a href="#" class="header" th:text="${author}">零分</a></div>
                 </div>
@@ -168,7 +175,7 @@
                 <div id="comment-form" class="ui form">
                     <!--<input type="hidden" name="blogId" th:value="${blog.id}">-->
                     <!--<input type="hidden" name="blogTitle" th:value="${blog.title}">-->
-                    <!--<input type="hidden" name="parentComment.id" value="${comment.id}">-->
+
                     <!--<input type="hidden" name="parentComment.blogId" value="${blog.id}">-->
                     <div class="field">
                         <textarea name="content" placeholder="请输入评论信息..."></textarea>
@@ -178,14 +185,15 @@
                             <div class="ui left icon input">
                                 <i class="user icon"></i>
                                 <input type="text" name="nickname" placeholder="留个昵称再评论吧"
-                                       th:value="${session.user}!=null ? ${session.user.nickname}">
+                                      >
                             </div>
                         </div>
                         <div class="field m-mobile-wide m-margin-bottom-small">
                             <div class="ui left icon input">
                                 <i class="mail icon"></i>
-                                <input type="text" name="contact" placeholder="留个联系方式(可选)"
-                                       th:value="${session.user}!=null ? ${session.user.email}">
+                                <input type="text" name="email" placeholder="留个联系方式"
+                                       >
+                                <input type="hidden" name="parentId">
                             </div>
                         </div>
                         <div class="field  m-margin-bottom-small m-mobile-wide">
@@ -238,6 +246,7 @@
 <!--<script src="/blogs/static/asserts/plugins/qrcode/qrcode.min.js"></script>-->
 <script src="/blogs/static/asserts/plugins/waypoints/jquery.waypoints.min.js"></script>
 <!--/*/</th:block>/*/-->
+<script src="/blogs/static/asserts/layui-MINI/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 
 
 <script th:inline="javascript">
@@ -319,58 +328,111 @@
                     type: 'empty',
                     prompt: '请输入你的大名'
                 }]
+            },
+            type: {
+              identifier: 'email',
+              rules: [{
+                type: 'email',
+                prompt: '请填写正确的邮箱地址'
+              }]
             }
-            // type: {
-            //   identifier: 'email',
-            //   rules: [{
-            //     type: 'email',
-            //     prompt: '请填写正确的邮箱地址'
-            //   }]
-            // }
         }
     });
 
+    var layer;
+
     $(function () {
-        // $("#comment-container").load();
+        layui.use(['layer'], function () {
+            layer = layui.layer;
+
+        });
     });
 
 
     $('#commentpost-btn').click(function () {
         var boo = $('.ui.form').form('validate form');
-        if (boo) {
+        console.log(boo+" boo的值");
+        if (boo =='true,true') {
             console.log('校验成功');
             postData();
         } else {
+            layer.msg('必填项不能为空', {icon: 5, time: 2000});
             console.log('校验失败');
         }
 
     });
 
     function postData() {
-        $("#comment-container").load(/*[[@{/comments}]]*/"/comments", {
-            "parentComment.id": $("[name='parentComment.id']").val(),
-            "blog.id": $("[name='blog.id']").val(),
-            "nickname": $("[name='nickname']").val(),
-            "email": $("[name='email']").val(),
-            "content": $("[name='content']").val()
-        }, function (responseTxt, statusTxt, xhr) {
-//        $(window).scrollTo($('#comment-container'),500);
-            clearContent();
+        $.ajax({
+            "url": '/blogs/articles/comment',
+            "data": {
+                "parentId": $("[name='parentId']").val(),
+                "name": $("[name='nickname']").val(),
+                "email": $("[name='email']").val(),
+                "content": $("[name='content']").val(),
+                "articleId": '[[${article.id}]]'
+            },
+            "type": "POST",
+            "dataType": "JSON",
+            beforeSend: LoadFunction, //加载执行方法
+            error: erryFunction,  //错误执行方法
+            success: succFunction //成功执行方法
         });
+
+        function LoadFunction() {
+            layer.msg('加载中', {
+                icon: 16
+                , shade: 0.01
+            });
+        }
+
+        function erryFunction() {
+            layer.msg("出错了");
+        }
+
+        function succFunction(result) {
+            console.log(result);
+            if (result.status == 200) {
+                layer.msg(result.message, {icon: 6, time: 1000}, function () {
+                    clearContent();
+                    window.location.reload();
+                });
+
+            } else {
+                layer.msg(result.message, {icon: 5, time: 2000});
+            }
+        }
+
+
+//         $("#comment-container").load("/blogs/articles/comment", {
+//             "parentId": $("[name='parentId']").val(),
+//             "name": $("[name='nickname']").val(),
+//             "email": $("[name='email']").val(),
+//             "content": $("[name='content']").val(),
+//             "articleId": '[[${article.id}]]'
+//         }, function (responseTxt, statusTxt, xhr) {
+// //        $(window).scrollTo($('#comment-container'),500);
+//             if (responseTxt.status == 200){
+//                 alert("评论成功");
+//                 window.location.reload();
+//             }
+//
+//             clearContent();
+//         });
     }
 
     function clearContent() {
         $("[name='content']").val('');
-        $("[name='parentComment.id']").val(-1);
+        $("[name='parentId']").val(-1);
         $("[name='content']").attr("placeholder", "请输入评论信息...");
     }
 
-
     function reply(obj) {
         var commentId = $(obj).data('commentid');
+        console.log(commentId+"   ooo");
         var commentNickname = $(obj).data('commentnickname');
         $("[name='content']").attr("placeholder", "@" + commentNickname).focus();
-        $("[name='parentComment.id']").val(commentId);
+        $("[name='parentId']").val(commentId);
         $(window).scrollTo($('#comment-form'), 500);
     }
 

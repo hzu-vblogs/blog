@@ -8,7 +8,6 @@ import com.hzu.blog.service.LeaveMessageService;
 import com.hzu.blog.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class LeaveMessageServiceImpl extends AbstractBaseServiceImpl<LeaveMessag
     private MailService mailService;
 
     @Override
-    @Transactional
     public boolean reply(Long id, User user, String backContent)  {
         LeaveMessage leaveMessage = dao.selectByPrimaryKey(id);
         String email = leaveMessage.getEmail();

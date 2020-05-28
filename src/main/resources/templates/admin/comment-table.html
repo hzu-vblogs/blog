@@ -94,10 +94,12 @@
             cols: [ [
 
             {field: 'id', title: 'id', hide : true}
-            , {field: 'name', title: '姓名'}
-            , {field: 'email', title: '邮箱'}
+            , {field: 'title', title: '文章标题'}
+            , {field: 'name', title: '评论人昵称'}
+            , {field: 'email', title: '评论人邮箱'}
             , {field: 'content', title: '内容'}
-            , {field: 'createDay', title: '留言日期',sort: true,templet:function(d){return util.toDateString(d.createDay, "yyyy-MM-dd HH:mm:ss");}}
+            , {field: 'isRoot', title: '是否为根评论'}
+            , {field: 'createDay', title: '评论日期',sort: true,templet:function(d){return util.toDateString(d.createDay, "yyyy-MM-dd HH:mm:ss");}}
             , {field: 'operating', title: '操作', toolbar: '#barDemo'}
         ] ]
             , response: {
@@ -190,7 +192,7 @@
 
     function toFormPage(id) {
         console.log(id);
-        var url = '/blogs/admin/leave/message/reply';
+        var url = '/blogs/admin/comment/reply';
         layer.open({
                 type: 1
                 // , area: [500 + 'px', 500 + 'px']
@@ -228,6 +230,7 @@
                         if (result.status == 200) {
                             parent.layer.msg(result.message, {icon: 6, time: 500}, function () {
                                 layer.closeAll();
+                                parent.window.location.reload();
                             });
 
                         } else {

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>首页-个人博客vblog</title>
+<meta name="keywords" content="blog" />
+<meta name="description" content="blog" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/myPagination.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/bootstrap.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/main.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/app/animate.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/base.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/blogs/static/asserts/css/music.css">
+<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.clearfix:after {
+				content: " ";
+				display: block;
+				clear: both;
+			}
+			
+			.box {
+				position: relative;
+				width: 900px;
+				height: 200px;
+				margin: 50px auto;
+			}
+			
+			.main {
+				width: 850px;
+				height: 200px;
+				position: absolute;
+				top: 0px;
+				left: 45%;
+				margin-left: -350px;
+				overflow: hidden;
+			}
+			
+			.item {
+				list-style: none;
+				width: 450px;
+				height: 150px;
+				position: absolute;
+				left: 40px;
+				top: 27px;
+				transition: all 0.3s ease;
+			}
+			
+			.p0 {
+				transform: translate3d(-280px, 0, 0) scale(1);
+				opacity: 0.1;
+				z-index: 1;
+			}
+			
+			.p1 {
+				transform: translate3d(0px, 0, 0) scale(1);
+				opacity: 0.8;
+				z-index: 2;
+			}
+			
+			.p2 {
+				transform: translate3d(280px, 0, 0) scale(1);
+				opacity: 0.8;
+				z-index: 3;
+			}
+			
+			.p3 {
+				transform: translate3d(140px, 0, 0) scale(1.5);
+				opacity: 1;
+				z-index: 4;
+			}
+			
+			.p4 {
+				transform: translate3d(560px, 0, 0) scale(1);
+				opacity: 0.1;
+				z-index: 3;
+			}
+			
+			.newItem {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+			}
+			
+			.changeItem {
+				position: absolute;
+				left: 50%;
+				top: 0px;
+				margin-left: -202px;
+				transform: scale(1.4);
+			}
+			
+			.item img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.btnMain {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			
+			.left {
+				position: absolute;
+				left: 15px;
+				top: 50%;
+				margin-top: -15px;
+				z-index: 10;
+			}
+			
+			.right {
+				position: absolute;
+				right: 15px;
+				top: 50%;
+				margin-top: -15px;
+				z-index: 10;
+			}
+			
+	        /*左右轮播键  */
+			.left img,
+			.right img {
+				width: 50px;
+				height: 50px;
+			}
+			
+	        /*按键     */
+			.pressMain {                
+				position: absolute;
+				left: 50%;
+				bottom: 10px;
+				width: 134px;
+				height: 24px;
+				margin-left: -67px;
+				z-index: 20;
+			}
+			
+			.pressMain span {
+				display: inline-block;
+				margin: 2px 3px;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				color: #fff;
+				background: pink;
+				text-align: center;
+				line-height: 20px;
+			}
+			
+			.pressMain .active {
+				background: brown;
+			}
+	        .myself{
+				margin-bottom: 20px;
+	       }
+		</style>
+</head>
+<body>
+<div style="height: 100%;width: 100%">
+    <div class="header" style="height: 70px">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-md-9 col-lg-8 col-xl-9">
+					<div class="header__content">
+						<!-- header menu btn -->
+						<button class="header__btn" type="button">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+						<!-- end header menu btn -->
+
+						<!-- header logo -->
+						<a href="index.html" class="header__logo">
+							<img src="/blogs/static/asserts/images/logo2.png" alt="" height="55px" width="140px">
+						</a>
+						<!-- end header logo -->
+
+						<!-- header nav -->
+						<ul class="header__nav">
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="/blogs/user/index/${myUser.id}" class="header__nav-link" style="font-size: 20px">首页</a>
+							</li>
+							<!-- end dropdown -->
+							
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">相册</a>
+							</li>
+																					 
+							<!-- end dropdown -->
+
+							<!-- dropdown -->
+<!--							<li class="header__nav-item" style="width: 70px">-->
+<!--								<a href="index.html" class="header__nav-link" style="font-size: 20px">音乐</a>-->
+<!--							</li>-->
+							<!-- end dropdown -->
+
+							<!-- dropdown -->
+							<li class="header__nav-item" style="width: 70px">
+								<a href="index.html" class="header__nav-link" style="font-size: 20px">管理</a>
+							</li>
+							<!-- end dropdown -->
+						</ul>
+						<!-- end header nav -->
+
+						<!-- header search -->
+						<form action="#" class="header__search">
+							<input class="header__search-input" type="text" placeholder="Search...">
+							<button class="header__search-button" type="button">
+								<i class="icon ion-ios-search"></i>
+							</button>
+						</form>
+						<!-- end header search -->
+					</div>
+				</div>
+				<div class="col-5 col-md-3 col-lg-4 col-xl-3">
+					<div class="header__content header__content--end">
+						<a href="messages.html" class="header__messages header__messages--active">
+							<i class="fa fa-envelope"></i>
+						</a>
+
+						<div class="header__notifications">
+							<a href="messages.html" class="header__messages header__messages--active">
+							<i class="fa fa-bullhorn"></i>
+						</a>
+
+							
+						</div>
+
+						<div class="header__profile">
+							<a class="dropdown-toggle header__profile-btn" href="#" role="button" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<img th:src="${myUser.icon}" alt="" width="36px" height="36px">
+								<span th:text="${myUser.username}"></span>
+							</a>
+							
+							<ul class="dropdown-menu dropdown-menu-right header__dropdown-menu header__dropdown-menu--right" aria-labelledby="dropdownMenuProfile">
+								<li><a href="profile.html">个人信息</a></li>
+								<li><a href="privacy.html">退出</a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div style="margin-top: 70px;width: 100%;height: 2400px;background: rgba(198,198,198,1.00)">
+        <div style="display: table;width: 60%; margin-left: 10%; float: left">
+               <div id="app" style="width: 100%;height: 230px;margin-top: 10px">
+			   <div class="box">
+				<!--<button @click="imgMove">点击</button>-->
+				<div class="main clearfix" @mouseover="btnOpen" @mouseout="btnHide">
+					<div class="minMain">
+						<div class="item" v-for="(item,index) in list" :key="index">
+							<img :src="item.imgUrl" />
+						</div>
+					</div>
+					<div class="btnMain" v-show="btnShow">
+						<div class="left" @click="leftClick">
+							<img src="/blogs/static/asserts/images/ljiantou.png" />
+						</div>
+						<div class="right" @click="rightClick">
+							<img src="/blogs/static/asserts/images/rjiantou.png" />
+						</div>
+					</div>
+					<div class="pressMain">
+						<span v-for="(item,index) in pressList" :class="{active:item.isShow}">{{item.name}}</span>
+					</div>
+				</div>
+			   </div>
+		       </div>
+               <div class="tab_box whitebg">
+                  <div class="tab_buttons" style="height: 10%">
+                       <h7>精选博文</h7>
+                  </div>
+                  <div class="newstab" style="height: 230px">
+                      <div class="newsitem" style="height: 230px">
+                         <div class="newspic" style="width: 35%;float: left">
+                             <ul>
+                                 <li><a href="/"><img src="/blogs/static/asserts/images/2.jpg"><span>个人博客，我的小世界！</span></a></li>
+                                 <li><a href="/"><img src="/blogs/static/asserts/images/4.jpg"><span>个人博客，记录我的美好生活</span></a></li>
+                             </ul>
+                         </div>
+		                 <div style="width: 65%;float: left;height: 230px">
+		                      <div>
+                                  <ul class="newslist" style="width: 100%">
+                                      <li><i></i><a href="/">第一条博客</a>
+                                          <p>这是我的第一条博客内容</p>
+                                      </li>
+                                      <li><i></i><a href="/">第二条博客</a>
+                                          <p>这是我的第二条博客内容</p>
+                                      </li>
+                                      <li><i></i><a href="/">第三条博客</a>
+                                          <p>这是我的第三条博客内容</p>
+                                      </li>
+                                      <li><i></i><a href="/">第四条博客</a>
+                                          <p>这是我的第四条博客内容</p>
+                                      </li>
+                                      <li><i></i><a href="/">第五条博客</a>
+                                          <p>这是我的第五条博客内容</p>
+                                      </li>
+                                  </ul>
+		                      </div>
+		                 </div>
+                      </div>
+                  </div>
+				  <div style="height: 30px"><div id="pagination" class="pagination" style="flex: auto;margin-left: 34%"></div></div>
+               </div>
+               <div class="tab_box whitebg">
+							<div class="tab_buttons" style="flex-direction: column; height: 1%">
+								<h7 class="panel-title">文章列表</h7>
+							</div>
+                            <div class="row mt-2 " style="flex: auto; height: 90%">
+                               <ul class="list-unstyled art-list">
+                                  <div class="post">
+						             <div class="post__head">
+								          <img class="post__head-img" src="/blogs/static/asserts/images/logo.jpg" alt="">
+							              <div class="post__head-title">
+								               <h5>时间有泪</h5>
+								               <p>一天前</p>
+							              </div>
+							              <div class="post__dropdown">
+								<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon ion-md-more"></i>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">编辑</a></li>
+									<li><a href="#">删除</a></li>
+								</ul>
+							</div>
+						             </div>
+                                     <h2 class="post__title">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+						             <div class="post__description">
+							              <p>今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a href="#">详情</a>
+						             </div>
+						             <div class="post__tags">
+							              <a href="#">体育</a>
+							              <a href="#">中超</a>
+							              <a href="#">足球</a>
+						             </div>
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span>20</span>
+											  <div style="width: 30px"></div>
+										      <i class="fa fa-comment-o"></i><span>20</span>
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span>214</span>
+							              </div>
+						             </div>
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+								<input type="text" placeholder="Type your comment...">
+								<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+							</form>
+						             </div>
+					              </div>
+                                  <div class="post">
+						             <div class="post__head">
+								          <img class="post__head-img" src="/blogs/static/asserts/images/logo.jpg" alt="">
+							              <div class="post__head-title">
+								               <h5>时间有泪</h5>
+								               <p>一天前</p>
+							              </div>
+							              <div class="post__dropdown">
+								<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon ion-md-more"></i>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">编辑</a></li>
+									<li><a href="#">删除</a></li>
+								</ul>
+							</div>
+						             </div>
+                                     <h2 class="post__title">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+						             <div class="post__description">
+							              <p>今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a href="#">详情</a>
+						             </div>
+						             <div class="post__tags">
+							              <a href="#">体育</a>
+							              <a href="#">中超</a>
+							              <a href="#">足球</a>
+						             </div>
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span>20</span>
+											  <div style="width: 30px"></div>
+										      <i class="fa fa-comment-o"></i><span>20</span>
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span>214</span>
+							              </div>
+						             </div>
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+								<input type="text" placeholder="Type your comment...">
+								<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+							</form>
+						             </div>
+					              </div>
+								  <div class="post">
+						             <div class="post__head">
+								          <img class="post__head-img" src="/blogs/static/asserts/images/ogo.jpg" alt="">
+							              <div class="post__head-title">
+								               <h5>时间有泪</h5>
+								               <p>一天前</p>
+							              </div>
+							              <div class="post__dropdown">
+								<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon ion-md-more"></i>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">编辑</a></li>
+									<li><a href="#">删除</a></li>
+								</ul>
+							</div>
+						             </div>
+                                     <h2 class="post__title">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+						             <div class="post__description">
+							              <p>今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a href="#">详情</a>
+						             </div>
+						             <div class="post__tags">
+							              <a href="#">体育</a>
+							              <a href="#">中超</a>
+							              <a href="#">足球</a>
+						             </div>
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span>20</span>
+											  <div style="width: 30px"></div>
+										      <i class="fa fa-comment-o"></i><span>20</span>
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span>214</span>
+							              </div>
+						             </div>
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+								<input type="text" placeholder="Type your comment...">
+								<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+							</form>
+						             </div>
+					              </div>
+								  <div class="post">
+						             <div class="post__head">
+								          <img class="post__head-img" src="/blogs/static/asserts/images/logo.jpg" alt="">
+							              <div class="post__head-title">
+								               <h5>时间有泪</h5>
+								               <p>一天前</p>
+							              </div>
+							              <div class="post__dropdown">
+								<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon ion-md-more"></i>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">编辑</a></li>
+									<li><a href="#">删除</a></li>
+								</ul>
+							</div>
+						             </div>
+                                     <h2 class="post__title">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+						             <div class="post__description">
+							              <p>今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a href="#">详情</a>
+						             </div>
+						             <div class="post__tags">
+							              <a href="#">体育</a>
+							              <a href="#">中超</a>
+							              <a href="#">足球</a>
+						             </div>
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span>20</span>
+											  <div style="width: 30px"></div>
+										      <i class="fa fa-comment-o"></i><span>20</span>
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span>214</span>
+							              </div>
+						             </div>
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+								<input type="text" placeholder="Type your comment...">
+								<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+							</form>
+						             </div>
+					              </div>
+								  <div class="post">
+						             <div class="post__head">
+								          <img class="post__head-img" src="/blogs/static/asserts/images/logo.jpg" alt="">
+							              <div class="post__head-title">
+								               <h5>时间有泪</h5>
+								               <p>一天前</p>
+							              </div>
+							              <div class="post__dropdown">
+								<a class="dropdown-toggle post__dropdown-btn" href="#" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="icon ion-md-more"></i>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right post__dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">编辑</a></li>
+									<li><a href="#">删除</a></li>
+								</ul>
+							</div>
+						             </div>
+                                     <h2 class="post__title">热身赛-恒大3-3深足 杨立瑜建功费南多梅开二度</h2>
+						             <div class="post__description">
+							              <p>今天，广州恒大作客深圳龙岗体育场与深圳佳兆业进行了一场内部教学赛。凭借费南多的梅开二度和杨立瑜的进球，恒大以3比3与深圳队握手言和。此次，恒大继续考察锻炼本土新人，近10名“00后”年轻球员出征客场，年龄最小的是2003年出生。</p>
+							              <a href="#">详情</a>
+						             </div>
+						             <div class="post__tags">
+							              <a href="#">体育</a>
+							              <a href="#">中超</a>
+							              <a href="#">足球</a>
+						             </div>
+						             <div class="post__stats">
+							              <div>
+								              <i class="fa fa-thumbs-o-up"></i><span>20</span>
+											  <div style="width: 30px"></div>
+										      <i class="fa fa-comment-o"></i><span>20</span>
+							              </div>
+							              <div class="post__views">
+								               <i class="fa fa-eye"></i> <span>214</span>
+							              </div>
+						             </div>
+						             <div class="collapse post__collapse" id="collapse1">
+							              <form action="#" class="post__form">
+								<input type="text" placeholder="Type your comment...">
+								<button type="button"><i class="icon ion-ios-paper-plane"></i></button>
+							</form>
+						             </div>
+					              </div>
+                               </ul>
+                            </div>
+							<div id="pagination2" class="pagination" style="flex: auto; height:9%;margin-left: 14%"></div>
+			   </div>
+    <!--bloglist end--> 
+        </div>
+        <div class="col-md-4 " style="width: 23%;margin-right: 2%; float: left">
+            <div class="container">
+                
+				<div class="row bgc mt-5 right-author">
+                    <div class="card" data-state="#about">
+                         <div class="card-header">
+                            <div class="card-cover" style="background-image: url('images/3.jpg')"></div>
+                            <img class="card-avatar" src="/blogs/static/asserts/images/logo.jpg" />
+                            <h1 class="card-fullname">时间有泪</h1>
+                            <p>1610875240@qq.com</p>
+                          </div>
+                         <div class="card-main">
+                            <div class="card-section is-active" id="about">
+                                 <div class="card-content">
+                                      <div class="card-subtitle" style="height: 200px;font-size: 20px">个人介绍
+                                      <p class="card-desc">是会更好说的都是大
+                                      </p>
+									  </div>
+                                 </div>
+                            </div>
+                          
+                            <div class="auth-info" style="margin-bottom: 0;font-size: 20px">
+                            <ul>
+                                <li><strong>2</strong><span style="font-size: 20px">相册</span></li>
+                                <li><strong>2</strong><span style="font-size: 20px">音乐</span></li>
+                                <li><strong>2</strong><span style="font-size: 20px">留言</span></li>
+                            </ul>
+                        </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="row bgc mt-4" style="height: 320px">
+                    <div class="music-player" style="margin-top: 0;width: 400px;height: 320px">
+  <!--<div style="background-image: url(http://i.imgur.com/yqB0erk.jpg);" class="album"></div>-->
+
+                        <div class="info" style="background: rgba(46,28,28,1.00)">
+                             <div class="left">
+                                  <a href="javascript:;" class="icon-shuffle"></a>
+                                  <a href="javascript:;" class="icon-heart"></a>
+                             </div>
+                             <div class="center">
+                                  <div class="jp-playlist">
+                                    <ul>
+                                    <li></li>
+                                    </ul>
+                                    </div>
+                             </div>
+                             <div class="right">
+                                  <a href="javascript:;" class="icon-repeat"></a>
+                                  <a href="javascript:;" class="icon-share"></a>
+                             </div>
+                             <div class="progress jp-seek-bar" style="background: rgba(195,195,195,1.00)">
+                                  <span class="jp-play-bar" style="width: 0%"></span>
+                             </div>
+                        </div>
+
+                        <div class="controls">
+                             <div class="current jp-current-time">00:00</div>
+                             <div class="play-controls">
+      <a href="javascript:;" class="icon-previous jp-previous" title="previous"></a>
+      <a href="javascript:;" class="icon-play jp-play" title="play"></a>
+      <a href="javascript:;" class="icon-pause jp-pause" title="pause"></a>
+      <a href="javascript:;" class="icon-next jp-next" title="next"></a>
+    </div>
+                             <div class="volume-level jp-volume-bar">
+      <span class="jp-volume-bar-value" style="width: 0%"></span>
+      <a href="javascript:;" class="icon-volume-up jp-volume-max" title="max volume"></a>
+      <a href="javascript:;" class="icon-volume-down jp-mute" title="mute"></a>
+    </div>
+                        </div>
+
+                        <div id="jquery_jplayer" class="jp-jplayer" style="height: 30px;margin-bottom: 0;"></div>
+
+                    </div>
+                </div>
+               
+                <div class="row bgc mt-5" style="margin-top: 0">
+                    <div class="new new-right">
+                        <span><i class="fa fa-tag"></i>标签云</span>
+                        <small>New Article</small>
+                    </div>
+                    <div class="col-md-12 ">
+                        <ul class="label">
+                            <li>
+                                <a href="#" title="生活">生活&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="模糊查询">模糊查询&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="遍历二维数组">遍历二维数组&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="Mui">Mui&nbsp;&nbsp;(2)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="随机">随机&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="文章月统计">文章月统计&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="时间戳">时间戳&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="一周每天的数据">一周每天的数据&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="无限极分类">无限极分类&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="tp5">tp5&nbsp;&nbsp;(2)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="面试">面试&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="layui">layui&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="Thinkphp5">Thinkphp5&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="QQ互联">QQ互联&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="惜缘">惜缘&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="发斯蒂芬">发斯蒂芬&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="擦擦">擦擦&nbsp;&nbsp;(3)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="发">发&nbsp;&nbsp;(2)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="测试">测试&nbsp;&nbsp;(5)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="fasdfasd">fasdfasd&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="测试数据2">测试数据2&nbsp;&nbsp;(1)</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#" title="测试数据">测试数据&nbsp;&nbsp;(2)</a>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+</div>
+    </div>
+</div>
+<script src="/blogs/static/asserts/js/bootstrap.bundle.min.js"></script>
+<script src="/blogs/static/asserts/js/jquery.min.js"></script>
+<script src="/blogs/static/asserts/js/jquery.jplayer.min.js"></script>
+<script src="/blogs/static/asserts/js/jplayer.playlist.min.js"></script>
+<script src="/blogs/static/asserts/js/music.js"></script>
+<script src="/blogs/static/asserts/js/myPagination.js"></script>
+<script src="/blogs/static/asserts/js/vue.js"></script>
+<script src="/blogs/static/asserts/js/bootstrap.bundle.min.js"></script>
+<!--照片墙-->   
+<script>
+		var app = new Vue({
+			el: "#app",
+			data() {
+				return {
+					list: [
+						{ imgUrl: '/blogs/static/asserts/images/张学友1.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友2.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友3.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友4.jpg' },
+						{ imgUrl: '/blogs/static/asserts/images/张学友5.jpg' }
+					],
+					pressList: [{ name: '1', isShow: false }, { name: '2', isShow: false }, { name: '3', isShow: false }, { name: '4', isShow: false }, { name: '5', isShow: false }],
+					numList: ['p0', 'p1', 'p2', 'p3', 'p4'],
+					imgIndex: 0,
+					imgTimer: null,
+					btnShow: false
+				}
+			},
+			mounted: function() {
+				var Item = document.getElementsByClassName('item');
+				for(var i = 0; i < Item.length; i++) {
+					Item[i].className = 'item ' + this.numList[i]
+				}
+				this.imgMove()
+				this.pressList[0].isShow = true
+			},
+			methods: {
+				imgMove() {
+					var Item = document.getElementsByClassName('item');
+					this.imgTimer = setInterval(() => {
+						this.numList.push(this.numList[0]);
+						this.numList.shift()
+						this.imgIndex++;
+						for(var i = 0; i < Item.length; i++) {
+							Item[i].className = 'item ' + this.numList[i];
+						}
+						for(var i in this.pressList) {
+							this.pressList[i].isShow = false
+						}
+						if(this.imgIndex > 4) {
+							this.imgIndex = 0
+							this.pressList[this.imgIndex].isShow = true;
+						} else {
+							this.pressList[this.imgIndex].isShow = true;
+						}
+					}, 4000)
+				},
+				btnOpen() {
+					this.btnShow = true;
+					clearInterval(this.imgTimer)
+				},
+				btnHide() {
+					this.btnShow = false;
+					this.imgMove()
+				},
+				leftClick() {
+					var Item = document.getElementsByClassName('item');
+					this.numList.unshift(this.numList[4]);
+					this.numList.pop()
+					for(var i = 0; i < Item.length; i++) {
+						Item[i].className = 'item ' + this.numList[i];
+					}
+					for(var i in this.pressList) {
+						this.pressList[i].isShow = false
+					}
+					this.imgIndex--
+						if(this.imgIndex < 0) {
+							this.imgIndex = 4
+							this.pressList[this.imgIndex].isShow = true;
+						} else {
+							this.pressList[this.imgIndex].isShow = true;
+						}
+				},
+				rightClick() {
+					var Item = document.getElementsByClassName('item');
+					this.numList.push(this.numList[0]);
+					this.numList.shift()
+					for(var i = 0; i < Item.length; i++) {
+						Item[i].className = 'item ' + this.numList[i];
+					}
+					for(var i in this.pressList) {
+						this.pressList[i].isShow = false
+					}
+					this.imgIndex++
+					if(this.imgIndex > 4) {
+						this.imgIndex = 0
+						this.pressList[this.imgIndex].isShow = true;
+					} else {
+						this.pressList[this.imgIndex].isShow = true;
+					}
+				}
+			}
+		})
+	</script>
+
+<!--页码1-->
+<script>
+window.onload = function () {
+    new myPagination({
+        id: 'pagination',
+        curPage:1, //初始页码
+        pageTotal: 6, //总页数
+		pageAmount: 5,  //每页多少条
+        dataTotal: 30, //总共多少条数据
+		pageSize: 5, //可选,分页个数
+        showPageTotalFlag:true, //是否显示数据统计
+        showSkipInputFlag:true, //是否支持跳转
+        getPage: function (page) {
+            //获取当前页数
+            console.log(page);
+        }
+    })
+	
+}
+</script>
+
+<!--页码2-->
+<script>
+window.onload = function () {
+    new myPagination({
+        id: 'pagination2',
+        curPage:1, //初始页码
+        pageTotal: 6, //总页数
+		pageAmount: 5,  //每页多少条
+        dataTotal: 30, //总共多少条数据
+		pageSize: 5, //可选,分页个数
+        showPageTotalFlag:true, //是否显示数据统计
+        showSkipInputFlag:true, //是否支持跳转
+        getPage: function (page) {
+            //获取当前页数
+            console.log(page);
+        }
+    })
+	
+}
+</script>
+</body>
+</html>
